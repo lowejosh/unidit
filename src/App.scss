@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+$primary: #1E2248;
+$dark-primary: #16122C;
+$light-primary: #2E366D;
+// $background: #E6ECEB;
+$background: #E9E9E9;
+$dark-background: #BDD0DC;
+
+html, body {
+  padding: 0;
+  margin: 0;
+  background-color: $background;
+  font-family: 'Poppins', sans-serif;
+}
+
+.background-background {
+  background-color: $background;
+}
+
+.background-primary {
+  background-color: $primary;
+}
+
+.text-background {
+  color: $background;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+
+// NAVBAR
+.nvb-link:hover {
+  background-color: $dark-primary;
+} 
+
+.nvb-item {
+  font-size: 16px;
+  height: 3.5rem;
+  line-height: 3.5rem;
+  display: inline-block;
+}
+
+.nvb-link {
+  cursor: pointer;
+  transition: 0.2s
+}
+
+.justify-start {
+  margin-right: auto;
+}
+
+.nvb {
+}
+
+.nvb-right {
+  position: absolute;
+  display: inline-block;
+  right: 3.5rem;
+}
+
+// .nvb-uni {
+//   right: 0;
+//   color: $background;
+//   opacity: 0.7;
+//   background-color: none !important;
+// }
+
+// #uni-small {
+//   display: none;
+// }
+
+@media (max-width: 795px) {
+
+}
+
+// @media (max-width: 950px) {
+//   #uni-full {
+//     display: none;
+//   }
+//   #uni-small {
+//     display: block;
+//   }
+// }
+
+// @media (max-width: 685px) {
+//   #uni-small {
+//     display: none;
+//   }
+
+// }
