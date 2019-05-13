@@ -5,13 +5,13 @@ $dark-primary: #16122C;
 $light-primary: #2E366D;
 // $background: #E6ECEB;
 $background: #E9E9E9;
-$dark-background: #BDD0DC;
+$dark-background: #D1D1D1;
 
 html, body {
   padding: 0;
   margin: 0;
   background-color: $background;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .background-background {
@@ -40,64 +40,67 @@ html, body {
   cursor: pointer;
 }
 
-
-// NAVBAR
-.nvb-link:hover {
-  background-color: $dark-primary;
-} 
-
-.nvb-item {
-  font-size: 16px;
-  height: 3.5rem;
-  line-height: 3.5rem;
-  display: inline-block;
-}
-
-.nvb-link {
-  cursor: pointer;
-  transition: 0.2s
-}
-
-.justify-start {
-  margin-right: auto;
-}
-
+// NAVBAR 
 .nvb {
+  background-color: $primary !important;
+  color: $background !important;
+  padding: 0;
+  font-family: 'Poppins', sans-serif !important;
 }
 
-.nvb-right {
-  position: absolute;
-  display: inline-block;
-  right: 3.5rem;
+// TODO underline ease in hover ?
+.nvb-item {
+  height: 3.5rem;
+  padding: 0;
+  line-height: 3.5rem;
+  color: $background !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
-// .nvb-uni {
-//   right: 0;
-//   color: $background;
-//   opacity: 0.7;
-//   background-color: none !important;
-// }
-
-// #uni-small {
-//   display: none;
-// }
-
-@media (max-width: 795px) {
-
+.nvb-selected {
+  background-color: $dark-primary;
 }
 
-// @media (max-width: 950px) {
-//   #uni-full {
-//     display: none;
-//   }
-//   #uni-small {
-//     display: block;
-//   }
-// }
+.nvb-item:hover {
+  color: $dark-background !important;
+  font-family: 'Poppins', sans-serif !important;
+}
 
-// @media (max-width: 685px) {
-//   #uni-small {
-//     display: none;
-//   }
+.nvb-toggle {
+  border: none;
+}
 
-// }
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(233, 233 ,233)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
+}
+
+
+// CONTENT
+.page-header {
+  color: $primary !important;
+}
+
+.custom-primary {
+  background-color: $primary !important;
+  color: $background !important;
+}
+
+.custom-primary:hover {
+  background-color: $dark-primary !important;
+}
+
+// SIDEBAR 
+.side-item-sel {
+  background-color: $primary;
+  color: $background;
+}
+
+.side-item:hover {
+  background-color: $dark-background;
+}
+
+
+// THREADS 
+.thread {
+  background-color: $dark-background;
+}

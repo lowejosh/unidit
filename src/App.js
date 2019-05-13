@@ -1,22 +1,21 @@
 import React from 'react';
 import NavBarContainer from './containers/NavBarContainer';
-
+import Content from './containers/Content';
 import './App.scss';
 
-const App = () => {
-  // sample data
-  let university = {
-    fullName: "Queensland University of Technology",
-    smallName: "QUT",
-  }
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAddressBook } from '@fortawesome/free-solid-svg-icons'
+library.add(faAddressBook)
 
+const App = () => {
 
   return (
     <div>
-      {/* <NavBarContainer university={university} /> */}
       <NavBarContainer />
-      <div className="px-5">
 
+      <div style={{marginLeft: "10rem", marginRight: "10rem", marginTop: "2rem"}}>
+        <Content />
       </div>
     </div>
   );
