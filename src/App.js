@@ -14,7 +14,7 @@ const App = () => {
     <div>
       <NavBarContainer />
 
-      <div style={{marginLeft: "10rem", marginRight: "10rem", marginTop: "2rem"}}>
+      <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
         <Content />
       </div>
     </div>

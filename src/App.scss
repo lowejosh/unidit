@@ -1,15 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
+// $primary: #262B5A;
 $primary: #1E2248;
 $dark-primary: #16122C;
 $light-primary: #2E366D;
 // $background: #E6ECEB;
-$background: #E9E9E9;
-$dark-background: #D1D1D1;
+$background: #FCFCFC;
+// $dark-background: #D1D1D1;
+$dark-background: #ECF0F1;
+$darker-background: #D1D1D1;
 
 html, body {
   padding: 0;
   margin: 0;
+  min-width: 268px;
   background-color: $background;
   font-family: 'Poppins', sans-serif !important;
 }
@@ -57,12 +61,20 @@ html, body {
   font-family: 'Poppins', sans-serif !important;
 }
 
+.nvb-brand {
+  height: 3.5rem;
+  padding: 0;
+  line-height: 3.5rem;
+  color: $background !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
 .nvb-selected {
   background-color: $dark-primary;
 }
 
 .nvb-item:hover {
-  color: $dark-background !important;
+  color: $darker-background !important;
   font-family: 'Poppins', sans-serif !important;
 }
 
@@ -76,7 +88,7 @@ html, body {
 
 
 // CONTENT
-.page-header {
+.primary-color {
   color: $primary !important;
 }
 
@@ -101,6 +113,26 @@ html, body {
 
 
 // THREADS 
-.thread {
+.thread-head {
   background-color: $dark-background;
+}
+
+.thread-text:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  .nvb-selected {
+    background-color: $primary;
+    text-decoration: underline;
+  }
+
+  .nvb-item:hover {
+    text-decoration: underline;
+  }
+
+  .threads {
+    margin-top: 1rem;
+  }
 }
