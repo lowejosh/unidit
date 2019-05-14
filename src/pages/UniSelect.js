@@ -38,6 +38,10 @@ const UniSelect = (props) => {
                     </div>
                 </div>
 
+                {/* UNIS */}
+                <div className="col-lg-9 threads">
+                    <Thread variant="uni" id={"6lWkkHxjoGh6d16OD9h31Eusrxn2"} name={"Queensland University of Technology"} topic={"Queensland"} units={12} posts={89} />
+                </div>
 
             </div>
         </div>

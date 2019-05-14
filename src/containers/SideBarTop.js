@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import {Form, OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import CreateThread from './CreateThread';
+import CreateUni from './CreateUni';
 
 const SideBarTop = (props) => {
     const [modalShow, setModalShow] = useState(false);
     const modalClose = () => {setModalShow(false)};
+
+    const [modalShowUni, setModalShowUni] = useState(false);
+    const modalCloseUni = () => {setModalShowUni(false)};
 
     const popover = (
         <Popover id="popover-basic" title="Sorry!">
@@ -25,7 +29,7 @@ const SideBarTop = (props) => {
                     ?
                         <Button variant="custom-primary w-100 mb-2" className="custom-primary" onClick={() => {
                             if (props.user) {
-                                setModalShow(true);
+                                setModalShowUni(true);
                             } 
                         }}>
                             Add a University
@@ -37,7 +41,7 @@ const SideBarTop = (props) => {
                         </Button>
                     </OverlayTrigger>
                 }
-                <CreateThread show={modalShow} onHide={modalClose} />
+                <CreateUni show={modalShowUni} onHide={modalCloseUni} />
             </div>
         );
     }

@@ -8,21 +8,30 @@ const NavBarContainer = (props) => {
         signInWithGoogle,
     } = props.auth;
 
+    let forumSel = "";
+    let topicSel = "";
+    let selectedSel = "";
+    if (props.sel == "forum") {
+        forumSel = "nvb-selected";
+    } else if (props.sel == "select") {
+        selectedSel = "nvb-selected";
+    }
+
     return (
         <Navbar style={{paddingLeft: "10%", paddingRight: "10%"}} className="nvb navbar-light" expand="lg">
         <Navbar.Brand className="nvb-brand" href="#home">MyUni</Navbar.Brand>
         <Navbar.Toggle className="nvb-toggle" aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-                <Nav.Link className="nvb-item nvb-selected px-3" href="#home">Forum</Nav.Link>
-                <Nav.Link className="nvb-item px-3" href="#link">Add a Topic</Nav.Link>
+                <Nav.Link className={"nvb-item px-3 " + forumSel} href="/">Forum</Nav.Link>
+                <Nav.Link className={"nvb-item px-3 " + topicSel} href="#">Add a Topic</Nav.Link>
                 {/* <Nav.Link className="nvb-item px-3" href="#link">Help</Nav.Link> */}
-                <Nav.Link className="nvb-item px-3" href="#link">Select University</Nav.Link>
+                <Nav.Link className={"nvb-item px-3 " + selectedSel} href="/select">Select University</Nav.Link>
             </Nav>
             <Nav>
                 {
                     user
-                    ? <Nav.Link className="nvb-item px-3" onClick={signOut}>Sign Out {user.displayName}</Nav.Link>
+                    ? <Nav.Link className="nvb-item px-3" onClick={signOut}>Sign out from {user.displayName}</Nav.Link>
                     : <Nav.Link className="nvb-item px-3" onClick={signInWithGoogle}>Sign in with Google</Nav.Link>
                 }
             </Nav>

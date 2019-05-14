@@ -22,6 +22,10 @@ html, body {
   background-color: $background;
 }
 
+.background-dark-background {
+  background-color: $dark-background;
+}
+
 .background-primary {
   background-color: $primary;
 }
@@ -123,6 +127,14 @@ html, body {
   cursor: pointer;
 }
 
+.uni-select:hover {
+  background-color: $primary;
+  color: $background;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
 
 // OVERWRITES
 .close {
@@ -131,6 +143,8 @@ html, body {
   border: none;
   margin-left: 0 !important;
 }
+
+
 
 
 
