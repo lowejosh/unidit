@@ -14,7 +14,7 @@ const Content = (props) => {
 
                 {/* SIDEBAR */}
                 <div className="col-lg-3">
-                    <SideBarTop />
+                    <SideBarTop user={props.user} />
                     <hr />
                     <SideBarItemList user={props.user} />
                 </div>
