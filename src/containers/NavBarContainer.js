@@ -7,7 +7,6 @@ const NavBarContainer = (props) => {
         signOut,
         signInWithGoogle,
     } = props.auth;
-    console.log(user);
 
     return (
         <Navbar style={{paddingLeft: "10%", paddingRight: "10%"}} className="nvb navbar-light" expand="lg">
@@ -15,10 +14,10 @@ const NavBarContainer = (props) => {
         <Navbar.Toggle className="nvb-toggle" aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-                <Nav.Link className="nvb-item nvb-selected px-3" href="#home">Home</Nav.Link>
-                <Nav.Link className="nvb-item px-3" href="#link">Find a Topic</Nav.Link>
+                <Nav.Link className="nvb-item nvb-selected px-3" href="#home">Forum</Nav.Link>
+                <Nav.Link className="nvb-item px-3" href="#link">Add a Topic</Nav.Link>
                 {/* <Nav.Link className="nvb-item px-3" href="#link">Help</Nav.Link> */}
-                <Nav.Link className="nvb-item px-3" href="#link">University Services</Nav.Link>
+                <Nav.Link className="nvb-item px-3" href="#link">Select University</Nav.Link>
             </Nav>
             <Nav>
                 {

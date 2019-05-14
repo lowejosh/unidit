@@ -12,6 +12,39 @@ const SideBarTop = (props) => {
         </Popover>
     );
 
+    if (props.variant == "uni") {
+        return ( <div>
+                <Form className="my-2">
+                    <Form.Group controlId="formThreadSearch">
+                        <Form.Control type="text" placeholder="Search for Universities..." />
+                    </Form.Group>
+                </Form>
+                
+                {
+                    props.user
+                    ?
+                        <Button variant="custom-primary w-100 mb-2" className="custom-primary" onClick={() => {
+                            if (props.user) {
+                                setModalShow(true);
+                            } 
+                        }}>
+                            Add a University
+                        </Button>
+                    :
+                    <OverlayTrigger trigger="focus" placement="right" overlay={popover}>
+                        <Button variant="custom-primary w-100 mb-2" className="custom-primary">
+                            Add a University
+                        </Button>
+                    </OverlayTrigger>
+                }
+                <CreateThread show={modalShow} onHide={modalClose} />
+            </div>
+        );
+    }
+
+
+
+
     return (
         <div>
             <Form className="my-2">
@@ -25,7 +58,6 @@ const SideBarTop = (props) => {
                 ?
                     <Button variant="custom-primary w-100 mb-2" className="custom-primary" onClick={() => {
                         if (props.user) {
-                            console.log("R");
                             setModalShow(true);
                         } 
                     }}>
