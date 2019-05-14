@@ -122,6 +122,18 @@ html, body {
   cursor: pointer;
 }
 
+
+// OVERWRITES
+.close {
+  opacity: 1;
+  color: $background !important;
+  border: none;
+  margin-left: 0 !important;
+}
+
+
+
+
 @media (max-width: 991px) {
   .nvb-selected {
     background-color: $primary;
