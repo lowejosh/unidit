@@ -5,6 +5,7 @@ import fire from './fire';
 
 let db = firebase.app().database();
 let uniRef = db.ref('/universities');
+let userRef = db.ref('/users');
 let unitRef = db.ref('/units');
 let threadRef = db.ref('/threads');
 let commentRef = db.ref('/comments');
@@ -69,4 +70,4 @@ const getUniversities = () => {
 }
 
 
-export {uniRef, getUniversities, createUni}
+export {uniRef, userRef, getUniversities, createUni}

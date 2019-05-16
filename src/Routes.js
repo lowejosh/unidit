@@ -81,7 +81,7 @@ const Routes = (props) => {
       <div>
         <NavBarContainer sel={"select"} auth={props.props} />
         <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "2rem"}}>
-          <UniSelect user={user} />
+            <UniSelect selectedUni={selectedUni} user={user} />
         </div>
       </div>
     ) : (
