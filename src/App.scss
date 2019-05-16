@@ -135,6 +135,14 @@ html, body {
   transition: 0.2s;
 }
 
+// SPINNER 
+.spinner {
+  position: absolute;
+  top: calc(50% - 2.5rem);
+  left: calc(50% - 2.5rem);
+  width: 5rem;
+  height: 5rem;
+}
 
 // OVERWRITES
 .close {
@@ -142,6 +150,16 @@ html, body {
   color: $background !important;
   border: none;
   margin-left: 0 !important;
+}
+
+// OTHER
+.link {
+  cursor: pointer;
+  color: $light-primary;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 
 
@@ -164,5 +182,13 @@ html, body {
   .threads {
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 568px) {
+  .topic-right {
+    padding-top: 0.5rem;
+    display: block !important;
+    float: none !important;
   }
 }

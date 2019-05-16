@@ -16,6 +16,12 @@ const SideBarTop = (props) => {
         </Popover>
     );
 
+    const popoverUni = (
+        <Popover id="popover-basic" title="Sorry!">
+            You need to be <strong>signed in</strong> to add a university.
+        </Popover>
+    );
+
     if (props.variant == "uni") {
         return ( <div>
                 <Form className="my-2">
@@ -35,7 +41,7 @@ const SideBarTop = (props) => {
                             Add a University
                         </Button>
                     :
-                    <OverlayTrigger trigger="focus" placement="right" overlay={popover}>
+                    <OverlayTrigger trigger="focus" placement="right" overlay={popoverUni}>
                         <Button variant="custom-primary w-100 mb-2" className="custom-primary">
                             Add a University
                         </Button>
