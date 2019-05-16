@@ -74,7 +74,7 @@ const Routes = (props) => {
         <div>
           <NavBarContainer sel={"forum"} auth={props.props} />
           <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "2rem"}}>
-            <Content user={user}/>
+            <Content selectedUni={selectedUni} user={user}/>
           </div>
         </div>
       ) : (

@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 // import SideBarItemList from '../containers/SideBarItemList';
 import SideItem from './../components/SideItem';
 import SideBarTop from '../containers/SideBarTop'
 import Thread from '../components/Thread';
+import {uniRef} from './../Database';
 
 const Content = (props) => {
+    const [uniName, setUniName] = useState(<h3>Loading...</h3>);
+    uniRef.child(props.selectedUni).once('value', function(snapshot) {
+        setUniName(snapshot.val().name);
+    });
+
     return (
         <div>
-            <div className="primary-color"><h3>Queensland University of Technology</h3></div>
+            <div className="primary-color"><h3>{uniName}</h3></div>
             <hr />
             <div className="row">
 
