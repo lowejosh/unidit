@@ -3,13 +3,16 @@ import SideBarItemList from '../containers/SideBarItemList';
 import SideItem from './../components/SideItem';
 import SideBarTop from '../containers/SideBarTop';
 import Thread from '../components/Thread';
-import {uniRef, getUniversities} from './../Database';
+import {uniRef, getUniversities} from './../Database'; 
+import {Form, OverlayTrigger, Popover, Button} from 'react-bootstrap';
+import CreateUni from './../containers/CreateUni';
 
 const UniSelect = (props) => {
 
     const [loading, setLoading] = useState(true);
     const [uniComponents, setUniComponents] = useState([]);
     const [selectedItem, setSelectedItem] = useState(0);
+    const [searchString, setSearchString] = useState("");
     const [changingSel, setChangingSel] = useState(false);
 
     // let uniComponents = [];
@@ -35,7 +38,53 @@ const UniSelect = (props) => {
             );
     }
 
+    const [modalShowUni, setModalShowUni] = useState(false);
+    const modalCloseUni = () => {setModalShowUni(false)};
 
+    const popoverUni = (
+        <Popover id="popover-basic" title="Sorry!">
+            You need to be <strong>signed in</strong> to add a university.
+        </Popover>
+    );
+
+    const sideTop = () => {
+        const handleKeyDown = (e) => {
+            if (e.key == 'Enter') {
+                setSearchString(e.target.value);
+                setLoading(true);
+                setChangingSel(true);
+            }
+        }
+
+
+        return (<div>
+                <div className="my-2">
+                    <Form.Group controlId="formThreadSearch">
+                        <Form.Control onKeyDown={handleKeyDown} type="text" placeholder="Search for Universities..." />
+                    </Form.Group>
+                </div>
+                
+                {
+                    props.user
+                    ?
+                        <Button variant="custom-primary w-100 mb-2" className="custom-primary" onClick={() => {
+                            if (props.user) {
+                                setModalShowUni(true);
+                            } 
+                        }}>
+                            Add a University
+                        </Button>
+                    :
+                    <OverlayTrigger trigger="focus" placement="right" overlay={popoverUni}>
+                        <Button variant="custom-primary w-100 mb-2" className="custom-primary">
+                            Add a University
+                        </Button>
+                    </OverlayTrigger>
+                }
+                <CreateUni show={modalShowUni} onHide={modalCloseUni} />
+            </div>
+        );
+    }
 
 
     let sideList = ["All", "Northern Territory", "Queensland", "New South Whales", "Victoria", "ACT", "South Australia", "Western Australia", "Tasmania"];
@@ -58,7 +107,6 @@ const UniSelect = (props) => {
     useEffect(() => {
 
         if (changingSel) {
-            console.log("CAHGNGN");
             setUniComponents([]);
             setChangingSel(false);
         }
@@ -68,19 +116,34 @@ const UniSelect = (props) => {
 
             if(uniArr.length && loading) {
                 for (let i = 0; i < uniArr[0].length; i++) {
-
-                    if (selectedItem == 0) {
-                        if (props.selectedUni == uniArr[1][i]) {
-                            uniComponents.push(
-                                <Thread key={i} variant="uni" sel={true} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
-                            )
-                        } else {
-                            uniComponents.push(
-                                <Thread key={i} variant="uni" uid={props.user.uid} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
-                            )
+                    if (searchString.length > 0) {
+                        if (uniArr[0][i].name.includes(searchString)) {
+                            if (selectedItem == 0) {
+                                if (props.selectedUni == uniArr[1][i]) {
+                                    uniComponents.push(
+                                        <Thread key={i} variant="uni" sel={true} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                    )
+                                } else {
+                                    uniComponents.push(
+                                        <Thread key={i} variant="uni" uid={props.user.uid} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                    )
+                                }
+                            } else {
+                                if (uniArr[0][i].state == sideList[selectedItem]) {
+                                    if (props.selectedUni == uniArr[1][i]) {
+                                        uniComponents.push(
+                                            <Thread key={i} variant="uni" sel={true} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                        )
+                                    } else {
+                                        uniComponents.push(
+                                            <Thread key={i} variant="uni" uid={props.user.uid} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                        )
+                                    }
+                                }
+                            }
                         }
                     } else {
-                        if (uniArr[0][i].state == sideList[selectedItem]) {
+                        if (selectedItem == 0) {
                             if (props.selectedUni == uniArr[1][i]) {
                                 uniComponents.push(
                                     <Thread key={i} variant="uni" sel={true} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
@@ -89,6 +152,19 @@ const UniSelect = (props) => {
                                 uniComponents.push(
                                     <Thread key={i} variant="uni" uid={props.user.uid} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
                                 )
+                            }
+                        } else {
+                            if (uniArr[0][i].state == sideList[selectedItem]) {
+                                if (props.selectedUni == uniArr[1][i]) {
+                                    uniComponents.push(
+                                        <Thread key={i} variant="uni" sel={true} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                    )
+                                } else {
+                                    uniComponents.push(
+                                        <Thread key={i} variant="uni" uid={props.user.uid} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                    )
+                                }
+
                             }
 
                         }
@@ -117,7 +193,8 @@ const UniSelect = (props) => {
 
                 {/* SIDEBAR */}
                 <div className="col-lg-3">
-                    <SideBarTop variant={"uni"} user={props.user} />
+                    {/* <SideBarTop variant={"uni"} user={props.user} /> */}
+                    {sideTop()}
                     <hr />
                     {/* SIDEBAR */}
                     <div>
