@@ -111,6 +111,13 @@ const UniSelect = (props) => {
             setChangingSel(false);
         }
 
+        let userId;
+        if (!props.user) {
+            userId = null;
+        } else {
+            userId = props.user.uid;
+        }
+
         uniRef.on('value', snapshot => {
             let uniArr = [Object.values(snapshot.val()), Object.keys(snapshot.val())];
 
@@ -125,7 +132,7 @@ const UniSelect = (props) => {
                                     )
                                 } else {
                                     uniComponents.push(
-                                        <Thread key={i} variant="uni" uid={props.user.uid} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                        <Thread key={i} variant="uni" uid={userId} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
                                     )
                                 }
                             } else {
@@ -136,7 +143,7 @@ const UniSelect = (props) => {
                                         )
                                     } else {
                                         uniComponents.push(
-                                            <Thread key={i} variant="uni" uid={props.user.uid} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                            <Thread key={i} variant="uni" uid={userId} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
                                         )
                                     }
                                 }
@@ -150,7 +157,7 @@ const UniSelect = (props) => {
                                 )
                             } else {
                                 uniComponents.push(
-                                    <Thread key={i} variant="uni" uid={props.user.uid} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                    <Thread key={i} variant="uni" uid={userId} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
                                 )
                             }
                         } else {
@@ -161,7 +168,7 @@ const UniSelect = (props) => {
                                     )
                                 } else {
                                     uniComponents.push(
-                                        <Thread key={i} variant="uni" uid={props.user.uid} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                        <Thread key={i} variant="uni" uid={userId} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
                                     )
                                 }
 

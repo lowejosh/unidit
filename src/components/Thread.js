@@ -29,7 +29,10 @@ const Thread = (props) => {
                     ) : (
                         <div className="uni-select background-dark-background border color-primary rounded-bottom w-100 p-2">
                             <div onClick={() => {
-                                userRef.child(props.uid).update({'selectedUni': props.id});
+                                localStorage.setItem("selectedUniversity", props.id);
+                                if (props.uid) {
+                                    userRef.child(props.uid).update({'selectedUni': props.id});
+                                }
                                 window.location.reload();
                             }}
                             className="text-center" style={{fontSize: "14px"}} >

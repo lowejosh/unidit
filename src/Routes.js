@@ -35,21 +35,34 @@ const Routes = (props) => {
 
 
 
+
+  useEffect(() =>{
     if (!props.isAuthenticating) {
         if (isCheckingForUni) {
-        
-        if (user) {
-            // Check database for selected Uni
-            usersRef.child(user.uid).once('value', function(snapshot) {
-            var exists = (snapshot.val() !== null);
-            userExistsCallback(user.uid, exists);
-            });
-        } else {
-            setIsCheckingForUni(false);
-        }
+            if (user) {
+                // Check database for selected Uni
+                if (localStorage.getItem("selectedUniversity")) {
+                    console.log("REACHED");
+                    setSelectedUni(localStorage.getItem("selectedUniversity"));
+                    setIsCheckingForUni(false);
+                } else {
+                    usersRef.child(user.uid).once('value', function(snapshot) {
+                        var exists = (snapshot.val() !== null);
+                        userExistsCallback(user.uid, exists);
+                    });
+                }
+            } else {
+                if (localStorage.getItem("selectedUniversity")) {
+                    console.log("FAWDWADWAQDWADWA");
+                    setSelectedUni(localStorage.getItem("selectedUniversity"));
+                }
+                setIsCheckingForUni(false);
+            }
         }
     }
+  },[isCheckingForUni])
 
+    console.log(selectedUni);
   const [modalShow, setModalShow] = useState(true);
   const modalClose = () => {setModalShow(false)};
   
