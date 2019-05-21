@@ -9,6 +9,7 @@ let userRef = db.ref('/users');
 let unitRef = db.ref('/units');
 let threadRef = db.ref('/threads');
 let commentRef = db.ref('/comments');
+let catRef = db.ref('/categories');
 
 const userModel = (selectedUni) => {
     return {
@@ -23,6 +24,7 @@ const uniModel = (name, state) => {
         unitCount: 0,
         postCount: 0,
         units: [],
+        categories: [],
     }
 };
 
@@ -34,12 +36,22 @@ const unitModel = (faculty, name, uniId) => {
     }
 };
 
+const categoryModel = (name, uniId) => {
+    return {
+        uni: uniId,
+        name: name,
+        threadExists: false,
+        threads: [],
+    }
+};
+
 const threadModel = (content, posterId, title) => {
     return {
         title: title,
         content: content,
-        positerId: posterId,
+        posterId: posterId,
         lastReplyTimeStamp: new Date(),
+        views: 0,
         comments: [],
     }
 };
@@ -56,6 +68,14 @@ const commentModel = (id, title, content) => {
 const createUni = (name, state) => {
     let uni = uniModel(name, state);
     let newUniRef = uniRef.push(uni);
+    let key = newUniRef.key;
+
+    let categories = ["Course Reviews", "Major Reviews", "Unit Reviews", "Summer Unit Polls", "Questions", "University Guides"];
+    for (let i = 0; i < categories.length; i++) {
+        let cat = categoryModel(categories[i], key);
+        let newCatRef = catRef.push(cat);
+    }
+
     return newUniRef.key;
 }
 
@@ -70,4 +90,4 @@ const getUniversities = () => {
 }
 
 
-export {uniRef, userRef, getUniversities, createUni}
+export {uniRef, catRef, threadRef, userRef, getUniversities, createUni}

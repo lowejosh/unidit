@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import NavBarContainer from './containers/NavBarContainer';
 import Content from './pages/Content';
+import Forum from './pages/Forum';
 import AltContent from './pages/AltContent';
 import UniSelect from './pages/UniSelect';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
@@ -43,7 +44,6 @@ const Routes = (props) => {
             if (user) {
                 // Check database for selected Uni
                 if (localStorage.getItem("selectedUniversity")) {
-                    console.log("REACHED");
                     setSelectedUni(localStorage.getItem("selectedUniversity"));
                     setIsCheckingForUni(false);
                 } else {
@@ -62,7 +62,6 @@ const Routes = (props) => {
     }
   },[isCheckingForUni])
 
-    console.log(selectedUni);
   const [modalShow, setModalShow] = useState(true);
   const modalClose = () => {setModalShow(false)};
   
@@ -76,6 +75,28 @@ const Routes = (props) => {
           <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
             {/* <Content selectedUni={selectedUni} user={user}/> */}
             <AltContent selectedUni={selectedUni} user={user}/>
+          </div>
+        </div>
+      ) : (
+        <Route>
+          <Redirect to="/select" />
+        </Route>
+
+      )
+    }
+    </div>
+  );  
+  
+  // let content = <Content user={user}/> 
+  const general = () => (
+    <div>
+    {
+      selectedUni ? (
+        <div>
+          <NavBarContainer sel={"forum"} auth={props.props} />
+          <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+            {/* <Content selectedUni={selectedUni} user={user}/> */}
+            <Forum selectedUni={selectedUni} user={user} name={"General Discussion"} type="global" route="/general"/>
           </div>
         </div>
       ) : (
@@ -123,8 +144,9 @@ const Routes = (props) => {
           </div>
         ) : (
           <Router>
-            <Route exact path="/select" component={uniSelect}/>
             <Route exact path="/" component={content}/>
+            <Route exact path="/select" component={uniSelect}/>
+            <Route exact path="/general" component={general}/>
           </Router>
 
         )

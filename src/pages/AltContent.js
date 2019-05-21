@@ -3,39 +3,85 @@ import React, {useState} from 'react';
 import SideItem from './../components/SideItem';
 import SideBarTop from '../containers/SideBarTop'
 import Thread from '../components/Thread';
-import {uniRef} from './../Database';
+import {uniRef, catRef} from './../Database';
 import AltCategory from '../components/AltCategory';
 import AltCategoryContainer from '../containers/AltCategoryContainer';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComments, faChartBar, faNewspaper, faGavel, faStar, faQuestionCircle, faBookOpen } from '@fortawesome/free-solid-svg-icons'
+import { database } from 'firebase';
 library.add(faComments, faChartBar, faNewspaper, faGavel, faStar, faQuestionCircle, faBookOpen)
 
 const AltContent = (props) => {
+    
     const [uniName, setUniName] = useState("Loading...");
     uniRef.child(props.selectedUni).once('value', function(snapshot) {
-        setUniName(snapshot.val().name);
+        try {
+            setUniName(snapshot.val().name);
+        } catch (e) {
+            alert("Your selected university no longer exists");
+            document.location.href="/select";
+        }
     });
+
+    // === DEPRECATED to FORUM.js ===
+    // // Get the category IDs for all categories with a matching university ID
+    // let courseId;
+    // let majorId;
+    // let unitId;
+    // let summerId;
+    // let questionId;
+    // let guideId;
+
+    // catRef.on("value", (snapshot) => {
+    //     snapshot.forEach((childSnapshot) => {
+    //         if (props.selectedUni == childSnapshot.val().uni) {
+    //             switch (childSnapshot.val().name) {
+    //                 case "Course Reviews":
+    //                     courseId = childSnapshot.key;
+    //                     break;
+    //                 case "Major Reviews":
+    //                     majorId = childSnapshot.key;
+    //                     break;
+    //                 case "Unit Reviews":
+    //                     unitId = childSnapshot.key;
+    //                     break;
+    //                 case "Summer Unit Polls":
+    //                     summerId = childSnapshot.key;
+    //                     break;
+    //                 case "Questions":
+    //                     questionId = childSnapshot.key;
+    //                     break;
+    //                 case "University Guides":
+    //                     guideId = childSnapshot.key;
+    //                     break;
+    //             }
+    //         }  
+    //     });
+    // })
+
+    // console.log(majorId + " : " + courseId + " : " + unitId + " : " + summerId + " : " + questionId + " : " + guideId);
 
     // temp
     let categoryArr1 = [
-        <AltCategory name={"General Discussion"} icon={faComments}/>, 
-        <AltCategory name={"University Statistics"} icon={faChartBar} description={"Find the best university and courses for you"} />,
-        <AltCategory name={"News"} icon={faNewspaper} description={"Latest site news and updates"} />,
-        <AltCategory name={"Rules and Code of Conduct"} icon={faGavel} description={"Read this before posting"} />,
+        <AltCategory name={"General Discussion"} icon={faComments} route="/general"/>, 
+        <AltCategory name={"University Statistics"} icon={faChartBar} description={"Find the best university and courses for you"} route="/stats"/>,
+        <AltCategory name={"News"} icon={faNewspaper} description={"Latest site news and updates"} route="/news"/>,
+        <AltCategory name={"Rules and Code of Conduct"} icon={faGavel} description={"Read this before posting"} route="/rules"/>,
     ];
 
     let categoryArr2 = [
-        <AltCategory name={"Course Reviews"} icon={faStar}/>, 
-        <AltCategory name={"Major Reviews"} icon={faStar} />,
-        <AltCategory name={"Unit Reviews"} icon={faStar} />,
-        <AltCategory name={"Summer Unit Polls"} icon={faGavel} description={"Read this before posting"} />,
+        <AltCategory name={"Course Reviews"} icon={faStar} route="/course-reviews"/>, 
+        <AltCategory name={"Major Reviews"} icon={faStar} route="/major-reviews"/>,
+        <AltCategory name={"Unit Reviews"} icon={faStar} route="/unit-reviews"/>,
+        <AltCategory name={"Summer Unit Polls"} icon={faGavel} description={"Read this before posting"} route="/summer-polls"/>,
     ];
 
     let categoryArr3 = [
-        <AltCategory name={"Questions"} icon={faQuestionCircle}/>, 
-        <AltCategory name={"University Guides"} icon={faBookOpen} description={"Guides for university applicants and students alike"} />,
+        <AltCategory name={"Questions"} icon={faQuestionCircle} route="/questions"/>, 
+        <AltCategory name={"University Guides"} icon={faBookOpen} description={"Guides for university applicants and students alike"} route="/guides"/>,
     ];
 
     return (
