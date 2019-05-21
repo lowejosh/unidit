@@ -5,9 +5,16 @@ $primary: #1E2248;
 $dark-primary: #16122C;
 $light-primary: #2E366D;
 // $background: #E6ECEB;
-$background: #FCFCFC;
+// $background: #FCFCFC;
+// // $dark-background: #D1D1D1;
+// $dark-background: #ECF0F1;
+// $darker-background: #D1D1D1;
+
+// $background: #FCFCFC;
 // $dark-background: #D1D1D1;
-$dark-background: #ECF0F1;
+$background: #F1F4F5;
+$light-background: #FFFFFF;
+$dark-background: #DDE4E6;
 $darker-background: #D1D1D1;
 
 html, body {
@@ -18,12 +25,20 @@ html, body {
   font-family: 'Poppins', sans-serif !important;
 }
 
+.background-light-background {
+  background-color: $light-background;
+}
+
 .background-background {
   background-color: $background;
 }
 
 .background-dark-background {
   background-color: $dark-background;
+}
+
+.background-darker-background {
+  background-color: $darker-background;
 }
 
 .background-primary {
@@ -112,7 +127,7 @@ html, body {
 }
 
 .side-item:hover {
-  background-color: $dark-background;
+  background-color: $background;
 }
 
 

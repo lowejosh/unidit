@@ -11,7 +11,7 @@ const Thread = (props) => {
                 <div style={{fontSize: "14px"}} className="p-2 w-100 thread-head border rounded-top">
                     <span className="primary-color">{props.name}</span> <span className="topic-right float-right">{props.topic}</span>
                 </div>
-                <div className="primary-color p-3 border w-100">
+                <div className="primary-color background-light-background p-3 border w-100">
                     <div style={{fontSize: "15px"}}>
                         {props.units} units
                     </div>
@@ -22,7 +22,7 @@ const Thread = (props) => {
                 {
                     selected
                     ? (
-                        <div className="background-primary border text-background rounded-bottom w-100 p-2">
+                        <div className="background-darker-background border rounded-bottom w-100 p-2">
                             <div className="text-center" style={{fontSize: "14px"}} >
                                 Selected
                             </div>

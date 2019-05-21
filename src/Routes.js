@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import NavBarContainer from './containers/NavBarContainer';
 import Content from './pages/Content';
+import AltContent from './pages/AltContent';
 import UniSelect from './pages/UniSelect';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import {Spinner} from 'react-bootstrap';
@@ -53,7 +54,6 @@ const Routes = (props) => {
                 }
             } else {
                 if (localStorage.getItem("selectedUniversity")) {
-                    console.log("FAWDWADWAQDWADWA");
                     setSelectedUni(localStorage.getItem("selectedUniversity"));
                 }
                 setIsCheckingForUni(false);
@@ -73,8 +73,9 @@ const Routes = (props) => {
       selectedUni ? (
         <div>
           <NavBarContainer sel={"forum"} auth={props.props} />
-          <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "2rem"}}>
-            <Content selectedUni={selectedUni} user={user}/>
+          <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+            {/* <Content selectedUni={selectedUni} user={user}/> */}
+            <AltContent selectedUni={selectedUni} user={user}/>
           </div>
         </div>
       ) : (
@@ -93,14 +94,14 @@ const Routes = (props) => {
       selectedUni ? (
       <div>
         <NavBarContainer sel={"select"} auth={props.props} />
-        <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "2rem"}}>
+        <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
             <UniSelect selectedUni={selectedUni} user={user} />
         </div>
       </div>
     ) : (
         <div>
           <NavBarContainer sel={"select"} auth={props.props} />
-          <div style={{marginLeft: "10%", marginRight: "10%", marginTop: "2rem"}}>
+          <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
             <UniSelect user={user} />
           </div>
 

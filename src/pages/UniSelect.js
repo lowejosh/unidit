@@ -28,7 +28,7 @@ const UniSelect = (props) => {
             if (selected) {
                 classNames+=" side-item-sel";
             } else {
-                classNames+=" border side-item";
+                classNames+=" border background-light-background side-item";
             }
 
             return (
@@ -94,7 +94,7 @@ const UniSelect = (props) => {
             // sideListComponents.push(<SideItem key={i} top={true} selected={localStorage.getItem("currentState") == sideList[i]} name={sideList[i]} />);
             sideListComponents.push(sideItem(true, false, (selectedItem == i), sideList[i], i));
 
-        } else if (i == sideList.length) {
+        } else if (i !== sideList.length - 1) {
             // sideListComponents.push(<SideItem key={i} bottom={true} selected={localStorage.getItem("currentState") == sideList[i]} name={sideList[sideList.length]} />);
             sideListComponents.push(sideItem(false, false, selectedItem == i, sideList[i], i));
 

@@ -27,14 +27,11 @@ const providers = {
   googleProvider: new firebase.auth.GoogleAuthProvider(),
 };
 
-// Disgusting, i know, but there is a time constraint
-localStorage.setItem("currentState", "All");
 
 
 function authUser() {
    return new Promise(function (resolve, reject) {
       firebase.auth().onAuthStateChanged(function(user) {
-        console.log("T");
          if (user) {
             resolve(user);
          } else {

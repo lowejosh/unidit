@@ -18,13 +18,13 @@ const NavBarContainer = (props) => {
 
     if (props.blank) {
         return (
-            <Navbar style={{paddingLeft: "10%", paddingRight: "10%"}} className="nvb navbar-light" expand="lg">
+            <Navbar style={{paddingLeft: "15%", paddingRight: "15%"}} className="nvb navbar-light" expand="lg">
             <Navbar.Brand className="nvb-brand" href="#home">MyUni</Navbar.Brand>
             <Navbar.Toggle className="nvb-toggle" aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Link className={"nvb-item px-3"} href="/">Forum</Nav.Link>
-                    <Nav.Link className={"nvb-item px-3"} href="#">Add a Topic</Nav.Link>
+                    {/* <Nav.Link className={"nvb-item px-3"} href="#">Add a Topic</Nav.Link> */}
                     {/* <Nav.Link className="nvb-item px-3" href="#link">Help</Nav.Link> */}
                     <Nav.Link className={"nvb-item px-3"} href="/select">Select University</Nav.Link>
                 </Nav>
@@ -40,13 +40,13 @@ const NavBarContainer = (props) => {
         } = props.auth;
 
         return (
-            <Navbar style={{paddingLeft: "10%", paddingRight: "10%"}} className="nvb navbar-light" expand="lg">
+            <Navbar style={{paddingLeft: "15%", paddingRight: "15%"}} className="nvb navbar-light" expand="lg">
             <Navbar.Brand className="nvb-brand" href="#home">MyUni</Navbar.Brand>
             <Navbar.Toggle className="nvb-toggle" aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Link className={"nvb-item px-3 " + forumSel} href="/">Forum</Nav.Link>
-                    <Nav.Link className={"nvb-item px-3 " + topicSel} href="#">Add a Topic</Nav.Link>
+                    {/* <Nav.Link className={"nvb-item px-3 " + topicSel} href="#">Add a Topic</Nav.Link> */}
                     {/* <Nav.Link className="nvb-item px-3" href="#link">Help</Nav.Link> */}
                     <Nav.Link className={"nvb-item px-3 " + selectedSel} href="/select">Select University</Nav.Link>
                 </Nav>
