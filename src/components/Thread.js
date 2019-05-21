@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {userRef} from './../Database';
+import {Route, Redirect} from 'react-router';
 
 const Thread = (props) => {
     const [selected, setSelected] = useState(props.sel);
@@ -33,7 +34,7 @@ const Thread = (props) => {
                                 if (props.uid) {
                                     userRef.child(props.uid).update({'selectedUni': props.id});
                                 }
-                                window.location.reload();
+                                window.location.href = "/";
                             }}
                             className="text-center" style={{fontSize: "14px"}} >
                                 Select
