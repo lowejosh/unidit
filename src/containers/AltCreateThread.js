@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import {Modal, Button, Form} from 'react-bootstrap';
+import {createThread} from './../Database';
 
-const CreateThread = (props) => {
-
+const AltCreateThread = (props) => {
   const [selectValue, setSelectValue] = useState(-1); 
+  const [title, setTitle] = useState(); 
+  const [content, setContent] = useState(); 
 
   const handleChange = (e) => {
     setSelectValue(e.target.value);
@@ -21,31 +23,29 @@ const CreateThread = (props) => {
           Create Thread
         </Modal.Title>
       </Modal.Header>
-      <Form>
+      <Form onSubmit={() => {
+      
+        if (title && content) {
+          createThread(title, content, props.uid, props.uname, props.categoryid);
+          // console.log(title + " : " + content + " : " + props.uid + " : " + props.uname + " : " + props.categoryid);
+        }
+      }}>
           <Modal.Body>
                   {/* <Form.Label>Title</Form.Label> */}
                   <Form.Group>
-                      <Form.Control className="mt-2" size="lg" type="text" placeholder="Title" />
+                      <Form.Control onChange={(e) => {
+                        setTitle(e.target.value);
+                      }} className="mt-2" size="lg" type="text" placeholder="Title" />
                   </Form.Group>
                   <Form.Group>
                   {/* <Form.Label>Content</Form.Label> */}
-                  <Form.Control as="textarea" placeholder="Content" rows="4" />
+                  <Form.Control as="textarea" placeholder="Content" rows="4" onChange={(e) => {
+                    setContent(e.target.value);
+                  }} />
                   </Form.Group>
-                  <Form.Group>
-                  {/* TODO */}
-                      <Form.Control value={selectValue} as="select" onChange={handleChange}>
-                          <option disabled value={-1} key={-1}>Topic</option>
-                          <option value={0} key={0}>General</option>
-                          <option>Help</option>
-                          <option>News</option>
-                          <option>IAB230</option>
-                          <option>CAB440</option>
-                      </Form.Control>
-                  </Form.Group>
-
           </Modal.Body>
           <Modal.Footer>
-          <Button className="custom-primary mx-auto w-25" onClick={props.onHide}>Post</Button>
+          <Button className="custom-primary mx-auto w-25" type="submit">Post</Button>
           </Modal.Footer>
       </Form>
     </Modal>
@@ -53,4 +53,4 @@ const CreateThread = (props) => {
 }
 
 
-export default CreateThread;
+export default AltCreateThread;

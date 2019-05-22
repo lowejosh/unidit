@@ -185,7 +185,16 @@ html, body {
 }
 
 .alt-custom-primary:hover {
-  background-color: $dark-primary !important;
+  // background-color: $dark-primary !important;
+  color: $darker-background !important;
+}
+
+.alt-custom-primary:focus {
+  // background-color: $dark-primary !important;
+  color: $darker-background !important;
+  outline-offset: 0 !important;
+  outline: none !important;
+  box-shadow: none;
 }
 
 

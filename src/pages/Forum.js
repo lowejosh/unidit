@@ -6,7 +6,7 @@ import {catRef} from './../Database';
 
 const Forum = (props) => {
     let categoryId;
-    let hasThreads = false;
+    const [hasThreads, setHasThreads] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const modalClose = () => {setModalShow(false)};
     const popover = (
@@ -24,7 +24,9 @@ const Forum = (props) => {
                         categoryId = childSnapshot.key;
                     }
                     if (childSnapshot.val().threadExists == true) {
-                        hasThreads = true;
+                        setHasThreads(true);
+                    } else if (childSnapshot.val().threadExists == false) {
+                        setHasThreads(false);
                     }
                 }  
             });
@@ -38,16 +40,24 @@ const Forum = (props) => {
                 document.write("database error");
         }
     }
+    
+    catRef.child(categoryId).once("value", (snapshot) => {
+        if (snapshot.val().threadExists == true) {
+            setHasThreads(true);
+        } else if (snapshot.val().threadExists == false) {
+            setHasThreads(false);
+        }
+    });
 
 
     return (
         <div>
             {
-                categoryId
+                categoryId || (hasThreads == null || hasThreads == undefined)
                 ? (
                     <div className="w-100">
                         <div className="row w-100 mx-auto" style={{height: "auto"}}>
-                            <div className="col-sm-8 border" style={{backgroundColor: "white", lineHeight: "2.5rem", height: "2.5rem"}}><a href="/">Forum</a> > <a href={props.route}>{props.name}</a></div>
+                            <div className="col-sm-8 text-background background-primary" style={{lineHeight: "2.5rem", height: "2.5rem"}}><a href="/">Forum</a> > <a href={props.route}>{props.name}</a></div>
                             <div className="col-sm-4" style={{padding: "0", margin: "0", height: "2.5rem"}}>
                                 {
                                     props.user
@@ -60,7 +70,7 @@ const Forum = (props) => {
                                             Create Thread
                                         </Button>
                                     ) : (
-                                        <OverlayTrigger trigger="focus" placement="right" overlay={popover}>
+                                        <OverlayTrigger trigger="focus" placement="bottom" overlay={popover}>
                                             <Button variant="custom-primary w-100 h-100 mb-2 rounded-0" className="alt-custom-primary">
                                                 Create Thread
                                             </Button>
@@ -72,8 +82,8 @@ const Forum = (props) => {
                         <Form.Group>
                             <Form.Control style={{margin: "0"}} className="rounded-0 border-bottom border-left border-right h-100 w-100 custom-search" size="md" type="text" placeholder="Search for a thread..." />
                         </Form.Group>
-                        <AltCreateThread show={modalShow} onHide={modalClose} />
-                        <AltThreadListContainer catId={categoryId} selectedUniversity={props.selectedUniversity} hasThreads={hasThreads}/>
+                        <AltCreateThread show={modalShow} onHide={modalClose} uid={props.user.uid} uname={props.user.displayName} categoryid={categoryId}/>
+                        <AltThreadListContainer catId={categoryId} selectedUniversity={props.selectedUniversity} hasThreads={hasThreads} />
                     </div>
                 ) : (
                     <div>

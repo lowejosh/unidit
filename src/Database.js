@@ -41,18 +41,21 @@ const categoryModel = (name, uniId) => {
         uni: uniId,
         name: name,
         threadExists: false,
-        threads: [],
+        threads: 0,
     }
 };
 
-const threadModel = (content, posterId, title) => {
+const threadModel = (title, content, posterId, posterName, categoryId) => {
     return {
         title: title,
         content: content,
         posterId: posterId,
-        lastReplyTimeStamp: new Date(),
+        posterName: posterName,
+        categoryId: categoryId,
+        timeStamp: new Date().toString(),
+        lastReplyTimeStamp: new Date().toString(),
         views: 0,
-        comments: [],
+        hasComment: false,
     }
 };
 
@@ -69,14 +72,38 @@ const createUni = (name, state) => {
     let uni = uniModel(name, state);
     let newUniRef = uniRef.push(uni);
     let key = newUniRef.key;
+    let uniCatRef = db.ref('/universities/' + key + '/categoryList');
 
     let categories = ["Course Reviews", "Major Reviews", "Unit Reviews", "Summer Unit Polls", "Questions", "University Guides"];
     for (let i = 0; i < categories.length; i++) {
         let cat = categoryModel(categories[i], key);
         let newCatRef = catRef.push(cat);
+        uniCatRef.push(newCatRef.key);
+
     }
 
     return newUniRef.key;
+}
+
+const createThread = (title, content, uid, uname, categoryId) => {
+    let thread = threadModel(title, content, uid, uname, categoryId);
+    let newThreadRef = threadRef.push(thread);
+    let key = newThreadRef.key;
+
+    // Update the category
+    console.log(categoryId);
+    catRef.child(categoryId).once('value', (snapshot) => {
+        console.log(snapshot.val());
+        if (!snapshot.val().threadExists) {
+            catRef.child(categoryId).update({'threadExists': true});
+        }
+        console.log(snapshot.val().threads++);
+        catRef.child(categoryId).update({'threads': snapshot.val().threads + 1})
+    })
+    let catThreadRef = db.ref('/categories/' + categoryId + '/threadList');
+    catThreadRef.push(key);
+
+    return key;
 }
 
 const getUniversities = () => {
@@ -90,4 +117,4 @@ const getUniversities = () => {
 }
 
 
-export {uniRef, catRef, threadRef, userRef, getUniversities, createUni}
+export {uniRef, catRef, threadRef, userRef, getUniversities, createUni, createThread}
