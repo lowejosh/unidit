@@ -33,6 +33,8 @@ const CreateUni = (props) => {
         onSubmit={() => {
             if (title && selectValue !== -1) {
               createUni(title, selectValue);
+            } else {
+              alert ("Please fill in all the forms and try again");
             }
           }
         } 

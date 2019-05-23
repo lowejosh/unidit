@@ -27,7 +27,8 @@ const AltCreateThread = (props) => {
       
         if (title && content) {
           createThread(title, content, props.uid, props.uname, props.categoryid);
-          // console.log(title + " : " + content + " : " + props.uid + " : " + props.uname + " : " + props.categoryid);
+        } else {
+          alert ("Please fill in all the forms and try again");
         }
       }}>
           <Modal.Body>

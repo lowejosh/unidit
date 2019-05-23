@@ -2,6 +2,7 @@ import withFirebaseAuth from 'react-with-firebase-auth'
 import 'firebase/auth';
 import * as firebase from 'firebase/app'; 
 import fire from './fire';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 let db = firebase.app().database();
 let uniRef = db.ref('/universities');
@@ -10,6 +11,8 @@ let unitRef = db.ref('/units');
 let threadRef = db.ref('/threads');
 let commentRef = db.ref('/comments');
 let catRef = db.ref('/categories');
+let ratingRef = db.ref('/ratings');
+let ratingObjRef = db.ref('/ratingObjs');
 
 const userModel = (selectedUni) => {
     return {
@@ -42,7 +45,8 @@ const categoryModel = (name, uniId) => {
         name: name,
         threadExists: false,
         threads: 0,
-        ratingAvg: null,
+        //ratingObjectList
+        //threadList
     }
 };
 
@@ -72,19 +76,86 @@ const commentModel = (content, uid, uname, threadId) => {
     }
 };
 
-const ratingModel = (title, content, posterId, posterName, categoryId, targetId, rating) => {
+const ratingObjectModel = (objectName, id, categoryId, faculty) => {
     return {
-        title: title,
+        targetId: id,
+        categoryId: categoryId,
+        name: objectName,
+        ratingSum: 0,
+        ratingAvg: 0,
+        ratings: 0,
+        faculty: faculty,
+        avgRating: null,
+        //ratingList
+    }
+}
+
+const ratingModel = (content, posterId, posterName, categoryId, targetId, rating, objectKey) => {
+    return {
         content: content,
         posterId: posterId,
         posterName: posterName,
         categoryId: categoryId,
         targetId: targetId,
         rating: rating,
+        objectKey: objectKey,
         timeStamp: Date.parse(new Date().toString()),
     }
 };
+const createRatingObject = (objectName, targetId, categoryId, faculty) => {
+    let ratingObj = ratingObjectModel(objectName, targetId, categoryId, faculty);
+    let newRatingObjRef = ratingObjRef.push(ratingObj);
+    return newRatingObjRef.key;
+}
 
+const createRating = (content, posterId, posterName, categoryId, targetId, targetName, rating, faculty) => {
+    // check every rating object to see if there is matching categoryId and targetId
+    let objectKey = null;
+    ratingObjRef.once("value", (snapshot) => {
+        snapshot.forEach((child) => {
+            console.log(targetId + "===" + child.val().targetId + "   " + categoryId + "===" + child.val().categoryId);
+            if (targetId == child.val().targetId && categoryId == child.val().categoryId) {
+                objectKey = child.key;
+                ratingObjRef.child(objectKey).update({"ratings": child.val().ratings + 1});
+                ratingObjRef.child(objectKey).update({"ratingSum": child.val().ratingSum + rating});
+            } 
+        })
+        if (!objectKey) {
+            objectKey = createRatingObject(targetName, targetId, categoryId, faculty);
+            ratingObjRef.child(objectKey).once("value", (snapshot) => {
+                ratingObjRef.child(objectKey).update({"ratings": snapshot.val().ratings + 1});
+                ratingObjRef.child(objectKey).update({"ratingSum": snapshot.val().ratingSum + rating});
+            })
+        }
+        let ratingM = ratingModel(content, posterId, posterName, categoryId, targetId, rating, objectKey);
+        let newRatingRef = ratingRef.push(ratingM);
+
+        // ratingObjRef.child(objectKey).once("child_changed", (snapshot) => {
+        //     console.log("RATING : " + snapshot.val().ratingSum);
+        //     ratingObjRef.child(objectKey).update({"ratings": snapshot.val().ratings + 1});
+        //     ratingObjRef.child(objectKey).update({"ratingSum": snapshot.val().ratingSum + rating});
+        // })
+
+        // // Update average rating
+        // db.ref("ratingObjs/" + objectKey + "/ratingSum").transaction((ratingSum) => {
+        //     return ratingSum + rating;
+        // })
+        // // db.ref("ratingObjs/" + objectKey + "/ratings").transaction((ratings) => {
+        // //     return ratings + 1;
+        // // })
+        // // ratingObjRef.child(objectKey).on("value", (snapshot) => {
+        // //     console.log("RATING : " + snapshot.val().ratingSum);
+        // //     ratingObjRef.child(objectKey).update({"ratingSum": snapshot.val().ratingSum + rating});
+        // //     ratingObjRef.child(objectKey).update({"ratings": snapshot.val().ratings + 1});
+        // //     ratingObjRef.child(objectKey).update({"ratingAvg": (snapshot.val().ratingSum / snapshot.val().ratings)});
+        // // })
+        let ratingRatingObjRef = db.ref('/ratingObjs/' + objectKey + '/ratingList');
+        let key = newRatingRef.key;
+        ratingRatingObjRef.push(key);
+    })
+
+
+}
 
 
 const createUni = (name, state) => {
@@ -111,7 +182,6 @@ const createThread = (title, content, uid, uname, categoryId) => {
 
     // Update the category
     catRef.child(categoryId).once('value', (snapshot) => {
-        console.log(snapshot.val());
         if (!snapshot.val().threadExists) {
             catRef.child(categoryId).update({'threadExists': true});
         }
@@ -153,4 +223,4 @@ const getUniversities = () => {
 }
 
 
-export {uniRef, catRef, commentRef, threadRef, userRef, getUniversities, createUni, createThread, createComment}
+export {uniRef, catRef, commentRef, threadRef, userRef, ratingRef, ratingObjRef, createRating, getUniversities, createUni, createThread, createComment}

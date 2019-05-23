@@ -21,6 +21,8 @@ const AltCreateThread = (props) => {
         console.log(content);
         if (content) {
           createComment(content, props.uid, props.uname, props.threadid);
+        } else {
+          alert ("Please fill in all the forms and try again");
         }
       }}>
           <Modal.Body>
