@@ -16,6 +16,7 @@ $background: #F1F4F5;
 $light-background: #FFFFFF;
 $dark-background: #DDE4E6;
 $darker-background: #D1D1D1;
+$darkest-background: #848484;
 
 html, body {
   padding: 0;
@@ -47,6 +48,10 @@ html, body {
 
 .text-background {
   color: $background;
+}
+
+.text-darkest-background {
+  color: $darkest-background;
 }
 
 .noselect {
@@ -182,6 +187,7 @@ html, body {
   height: 2.5rem !important;
   border: none !important;
   color: $background !important;
+  transition: 0s;
 }
 
 .alt-custom-primary:hover {

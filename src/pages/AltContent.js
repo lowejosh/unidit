@@ -17,6 +17,8 @@ library.add(faComments, faChartBar, faNewspaper, faGavel, faStar, faQuestionCirc
 const AltContent = (props) => {
     
     const [uniName, setUniName] = useState("Loading...");
+    const [generalThreads, setGeneralThreads] = useState("Loading...");
+    const [questionThreads, setQuestionThreads] = useState("Loading...");
     uniRef.child(props.selectedUni).once('value', function(snapshot) {
         try {
             setUniName(snapshot.val().name);
@@ -24,6 +26,21 @@ const AltContent = (props) => {
             alert("Your selected university no longer exists");
             document.location.href="/select";
         }
+    });
+
+    catRef.child("general").once("value", (snapshot) => {
+        setGeneralThreads(snapshot.val().threads);
+    });
+
+    catRef.once("value", (snapshot) => {
+        console.log(snapshot.val());
+        if (snapshot.val().uni == props.selectedUni && snapshot.val().name == "Questions") {
+            console.log(snapshot.val().threads);
+        }
+    })
+
+    catRef.child("questions").once("value", (snapshot) => {
+        setQuestionThreads(snapshot.val().threads);
     });
 
     // === DEPRECATED to FORUM.js ===
@@ -66,21 +83,21 @@ const AltContent = (props) => {
 
     // temp
     let categoryArr1 = [
-        <AltCategory name={"General Discussion"} icon={faComments} route="/general"/>, 
+        <AltCategory name={"General Discussion"} icon={faComments} route="/general" threads={generalThreads}/>, 
         <AltCategory name={"University Statistics"} icon={faChartBar} description={"Find the best university and courses for you"} route="/stats"/>,
         <AltCategory name={"News"} icon={faNewspaper} description={"Latest site news and updates"} route="/news"/>,
         <AltCategory name={"Rules and Code of Conduct"} icon={faGavel} description={"Read this before posting"} route="/rules"/>,
     ];
 
     let categoryArr2 = [
-        <AltCategory name={"Course Reviews"} icon={faStar} route="/course-reviews"/>, 
-        <AltCategory name={"Major Reviews"} icon={faStar} route="/major-reviews"/>,
-        <AltCategory name={"Unit Reviews"} icon={faStar} route="/unit-reviews"/>,
+        <AltCategory name={"Course Reviews"} icon={faStar} route="/course-reviews" description="Read or write reviews about a course"/>, 
+        <AltCategory name={"Major Reviews"} icon={faStar} route="/major-reviews" description="Read or write reviews about a major"/>,
+        <AltCategory name={"Unit Reviews"} icon={faStar} route="/unit-reviews" description="Read or write reviews about a unit"/>,
         <AltCategory name={"Summer Unit Polls"} icon={faGavel} description={"Read this before posting"} route="/summer-polls"/>,
     ];
 
     let categoryArr3 = [
-        <AltCategory name={"Questions"} icon={faQuestionCircle} route="/questions"/>, 
+        <AltCategory name={"Questions"} icon={faQuestionCircle} route="/questions" threads={questionThreads}/>, 
         <AltCategory name={"University Guides"} icon={faBookOpen} description={"Guides for university applicants and students alike"} route="/guides"/>,
     ];
 

@@ -36,10 +36,14 @@ const Forum = (props) => {
             case "General Discussion":
                 categoryId = "general"
                 break;
+            case "Questions":
+                categoryId = "questions"
+                break;
             default:
                 document.write("database error");
         }
     }
+    console.log(categoryId);
     
     catRef.child(categoryId).once("value", (snapshot) => {
         if (snapshot.val().threadExists == true) {

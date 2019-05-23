@@ -8,7 +8,7 @@ const AltCategory = (props) => {
     if (props.description) {
         description = props.description;
     } else {
-        description = <span><span>Threads: 3241</span><span className="mx-2">Messages: 50,232</span></span>
+        description = <span>Threads: {props.threads}</span>
     }
 
     return (

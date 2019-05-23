@@ -52,8 +52,8 @@ const threadModel = (title, content, posterId, posterName, categoryId) => {
         posterId: posterId,
         posterName: posterName,
         categoryId: categoryId,
-        timeStamp: new Date().toString(),
-        lastReplyTimeStamp: new Date().toString(),
+        timeStamp: Date.parse(new Date().toString()),
+        lastReplyTimeStamp: Date.parse(new Date().toString()),
         views: 0,
         hasComment: false,
     }
@@ -63,7 +63,7 @@ const commentModel = (id, title, content) => {
     return {
         title: title,
         content: content,
-        timestamp: new Date(),
+        timeStamp: Date.parse(new Date().toString()),
         votes: 0
     }
 };
@@ -91,13 +91,11 @@ const createThread = (title, content, uid, uname, categoryId) => {
     let key = newThreadRef.key;
 
     // Update the category
-    console.log(categoryId);
     catRef.child(categoryId).once('value', (snapshot) => {
         console.log(snapshot.val());
         if (!snapshot.val().threadExists) {
             catRef.child(categoryId).update({'threadExists': true});
         }
-        console.log(snapshot.val().threads++);
         catRef.child(categoryId).update({'threads': snapshot.val().threads + 1})
     })
     let catThreadRef = db.ref('/categories/' + categoryId + '/threadList');

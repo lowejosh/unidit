@@ -4,6 +4,7 @@ import Content from './pages/Content';
 import Forum from './pages/Forum';
 import AltContent from './pages/AltContent';
 import UniSelect from './pages/UniSelect';
+import ThreadPage from './pages/ThreadPage';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import {Spinner} from 'react-bootstrap';
 import * as Database from './Database';
@@ -109,6 +110,60 @@ const Routes = (props) => {
     </div>
   );
 
+  const questions = () => (
+    <div>
+    {
+      selectedUni ? (
+        <div>
+          <NavBarContainer sel={"forum"} auth={props.props} />
+          <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+            {/* <Content selectedUni={selectedUni} user={user}/> */}
+            <Forum selectedUni={selectedUni} user={user} name={"Questions"} type="global" route="/questions"/>
+          </div>
+        </div>
+      ) : (
+        <Route>
+          <Redirect to="/select" />
+        </Route>
+
+      )
+    }
+    </div>
+  );
+
+
+        // {/* <div>
+        //   <NavBarContainer sel={"forum"} auth={props.props} />
+        //   <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+        //     <Forum selectedUni={selectedUni} user={user} name={"Questions"} type="global" route="/questions"/>
+        //   </div>
+        // </div> */}
+  const thread = ({ match }) => (
+    <div>
+    {
+      selectedUni ? (
+        <div>
+          <NavBarContainer sel={"forum"} auth={props.props} />
+          <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+            {/* <Content selectedUni={selectedUni} user={user}/> */}
+              <ThreadPage id={match.params.id} />
+          </div>
+        </div>
+      ) : (
+        <Route>
+          <Redirect to="/select" />
+        </Route>
+
+      )
+    }
+    </div>
+  );
+
+
+
+
+
+
   const uniSelect = () => (
     <div>
     {
@@ -147,6 +202,8 @@ const Routes = (props) => {
             <Route exact path="/" component={content}/>
             <Route exact path="/select" component={uniSelect}/>
             <Route exact path="/general" component={general}/>
+            <Route exact path="/questions" component={questions}/>
+            <Route path="/thread:id" component={thread}/>
           </Router>
 
         )
