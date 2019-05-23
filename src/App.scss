@@ -180,6 +180,10 @@ html, body {
   margin-left: 0 !important;
 }
 
+.no-under-hover:hover {
+  text-decoration: none !important;
+}
+
 .custom-search {
   border-top: none;
 }

@@ -45,6 +45,7 @@ const categoryModel = (name, uniId) => {
         name: name,
         threadExists: false,
         threads: 0,
+        hasRatingObject: false,
         //ratingObjectList
         //threadList
     }
@@ -126,6 +127,9 @@ const createRating = (content, posterId, posterName, categoryId, targetId, targe
                 ratingObjRef.child(objectKey).update({"ratings": snapshot.val().ratings + 1});
                 ratingObjRef.child(objectKey).update({"ratingSum": snapshot.val().ratingSum + rating});
             })
+            let catRatingObjRef = db.ref('/categories/' + categoryId + '/ratingObjList');
+            catRatingObjRef.push(objectKey);
+            catRef.child(categoryId).update({"hasRatingObject": true});
         }
         let ratingM = ratingModel(content, posterId, posterName, categoryId, targetId, rating, objectKey);
         let newRatingRef = ratingRef.push(ratingM);

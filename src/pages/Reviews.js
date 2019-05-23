@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Spinner, Form, OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import AltCreateReview from './../containers/AltCreateReview';
-import {catRef} from './../Database';
+import {catRef, ratingObjRef} from './../Database';
+import StarRatings from 'react-star-ratings';
 
 const Reviews = (props) => {
     const [categoryId, setCategoryId] = useState(null);
@@ -9,6 +10,13 @@ const Reviews = (props) => {
 
     const [loadingName, setLoadingName] = useState(true);
     const [categoryName, setCategoryName] = useState("");
+
+    const [hasRatingObj, setHasRatingObj] = useState();
+    const [ratingObjList, setRatingObjList] = useState();
+    const [ratingCount, setRatingCount] = useState();
+    const [ratingObjectComponents, setRatingObjectComponents] = useState([]);
+    const [loadingRatings, setLoadingRatings] = useState(true);
+    const [, update] = useState();
 
     const [modalShow, setModalShow] = useState(false);
     const modalClose = () => {setModalShow(false)};
@@ -18,9 +26,10 @@ const Reviews = (props) => {
         </Popover>
     );
 
-    const [selectedItem, setSelectedItem] = useState(0);
+    const [selectedItem, setSelectedItem] = useState("All");
     const [changingSel, setChangingSel] = useState(false);
 
+    let sideList = ["All", "Science, Engineering & Information Technology", "Business, Economics & Law", "Health & Behavioural Science", "Humanities & Social Science", "Medicine"];
     const sideItem = (top, bottom, selected, name, i) => {
             let classNames = "px-3 pointer py-2 w-100";
             if (top) {
@@ -36,12 +45,11 @@ const Reviews = (props) => {
             }
 
             return (
-                <div onClick={() => {setSelectedItem(i); setChangingSel(true); setLoading(true)}} className={classNames}>
+                <div onClick={() => {setSelectedItem(sideList[i]); setRatingObjectComponents([]); setLoadingRatings(true)}} className={classNames}>
                     {name}
                 </div>
             );
     }
-        let sideList = ["All", "Science, Engineering & Information Technology", "Business, Economics & Law", "Health & Behavioural Science", "Humanities & Social Science", "Medicine"];
         let sideListComponents = [];
         for (let i = 0; i < sideList.length; i++) {
             if (i == 0) {
@@ -68,6 +76,7 @@ const Reviews = (props) => {
                     if (props.selectedUni == childSnapshot.val().uni) {
                         if (childSnapshot.val().name == props.name) {
                             setCategoryId(childSnapshot.key);
+                            setHasRatingObj(childSnapshot.val().hasRatingObject)
                         }
                     }  
                 });
@@ -78,24 +87,71 @@ const Reviews = (props) => {
         if (loadingName && !loading) {
             catRef.child(categoryId).once("value", (snapshot) => {
                 setCategoryName(snapshot.val().name);
+                setRatingObjList(Object.values(snapshot.val().ratingObjList));
                 setLoadingName(false);
             })
         }
-    });
+
+        if (loadingRatings && !loadingName && ratingObjList.length > 0) {
+            setRatingCount(ratingObjList.count);
+            for (let i = 0; i < ratingObjList.length; i++) {
+                // ratingObjectComponents.push(<div>ratingObjList[i]</div>);
+                ratingObjRef.child(ratingObjList[i]).once("value", (snapshot) => {
+                    let v = snapshot.val();
+                    let ratingSum = v.ratingSum;
+                    let ratings = v.ratings;
+                    let ratingAvg = ratingSum/ratings;
+                    let name = v.name;
+                    let faculty = v.faculty;
+                    let targetId = v.targetId;
+
+                    if (selectedItem == "All") {
+                        ratingObjectComponents.push(
+                            <div key={i} className="w-100 p-3 background-light-background border mt-4">
+                                <h5 className="primary-color"><a href={"/ratings" + snapshot.key}>{targetId} - {name}</a><br /><span className="text-darkest-background " style={{fontSize: "16px"}}>{faculty}</span></h5>
+                                <div className="py-2 mb-1">Total reviews: {ratings}<br />Average rating: {ratingAvg}</div>
+                                <StarRatings
+                                    rating={ratingAvg}
+                                    starRatedColor="#1E2248"
+                                    starDimension="30px"
+                                    starHoverColor="16122C"
+                                    numberOfStars={5}
+                                    name='rating'
+                                />
+                            </div>                        
+                        );
+                    } else {
+                        if (faculty == selectedItem) {
+                            ratingObjectComponents.push(
+                                <div key={i} className="w-100 p-3 background-light-background border mt-4">
+                                    <h5 className="primary-color"><a href={"/ratings" + snapshot.key}>{targetId} - {name}</a><br /><span className="text-darkest-background " style={{fontSize: "16px"}}>{faculty}</span></h5>
+                                    <div className="py-2 mb-1">Total reviews: {ratings}<br />Average rating: {ratingAvg}</div>
+                                    <StarRatings
+                                        rating={ratingAvg}
+                                        starRatedColor="#1E2248"
+                                        starDimension="30px"
+                                        starHoverColor="16122C"
+                                        numberOfStars={5}
+                                        name='rating'
+                                    />
+                                </div>                        
+                            );
+                        }
+
+                    }
+                    update(i);
+                })
+                if (i == ratingObjList.length - 1) {
+                    setLoadingRatings(false);
+                }
+            }
+        }
+    }, [loading, loadingName, loadingRatings, update, ratingObjectComponents]);
     
-    // Allow use to leave a rating 
-
-    // If the reviewObjectId doesnt exist, create one and update the average, and put the rating into the ratingList
-
-    // Print the reviewObjects 
-
-    // Clickable review objects list all of the ratings
-
-    console.log(props.user);
     return (
         <div>
         {
-            categoryName 
+            categoryName && hasRatingObj !== null
             ? (
                 <div>
                     <div className="row w-100 mx-auto" style={{height: "auto"}}>
@@ -125,14 +181,31 @@ const Reviews = (props) => {
                         </div>
                     </div>
                     {sideListComponents}
-                    {/* <div className="w-100 row">
-                    <div className="col-sm-4">
-                        {/* Sidebar */}
-                    {/* </div>
-                    <div className="col-sm-8"> */}
-                        {/* Content */}
-                    {/* </div>
-                    </div> */}
+                    <div>
+                    {
+                        hasRatingObj
+                        ? (
+                            <div>
+                                {
+                                    ratingCount == 1
+                                    ? (
+                                        <div className="mb-4">
+                                            {ratingObjectComponents[0]}
+                                        </div>
+                                    ) : (
+                                        <div className="mb-4">
+                                            {ratingObjectComponents}
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        ) : (
+                            <div>
+                                <div className="mt-5 text-center">Oops. Looks like there are no reviews yet. Why not leave one?</div>
+                            </div>
+                        )
+                    }
+                    </div>
                 </div>
 
             ) : (

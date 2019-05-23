@@ -29,9 +29,7 @@ const AltCommentListContainer = (props) => {
             for (let i = 0; i < commentList.length; i++) {
                 commentRef.child(commentList[i]).once("value", (snapshot) => {
                     let v = snapshot.val();
-                    console.log(v.threadId + " : " + props.threadid);
                     if(v.threadId == props.threadid) {
-                        console.log("REEEEEEEEEEEEE");
                         comments.push(<AltComment key={i} uname={v.posterName} uid={v.posterId} content={v.content} date={v.timeStamp} />);
                         Update(i);
                     }
