@@ -42,6 +42,7 @@ const categoryModel = (name, uniId) => {
         name: name,
         threadExists: false,
         threads: 0,
+        ratingAvg: null,
     }
 };
 
@@ -70,6 +71,21 @@ const commentModel = (content, uid, uname, threadId) => {
         threadId: threadId,
     }
 };
+
+const ratingModel = (title, content, posterId, posterName, categoryId, targetId, rating) => {
+    return {
+        title: title,
+        content: content,
+        posterId: posterId,
+        posterName: posterName,
+        categoryId: categoryId,
+        targetId: targetId,
+        rating: rating,
+        timeStamp: Date.parse(new Date().toString()),
+    }
+};
+
+
 
 const createUni = (name, state) => {
     let uni = uniModel(name, state);
@@ -114,11 +130,11 @@ const createComment = (content, uid, uname, threadId) => {
 
     // Update the thread
     threadRef.child(threadId).once('value', (snapshot) => {
-        console.log(snapshot.val());
         if (!snapshot.val().hasComment) {
             threadRef.child(threadId).update({'hasComment': true});
         }
-        threadRef.child(threadId).update({'comments': snapshot.val().comments + 1})
+        threadRef.child(threadId).update({'comments': (snapshot.val().comments + 1)})
+        threadRef.child(threadId).update({'lastReplyTimeStamp': (Date.parse(new Date().toString()))})
     })
     let threadCommentRef = db.ref('/threads/' + threadId + '/commentList');
     threadCommentRef.push(key);

@@ -32,12 +32,6 @@ const AltContent = (props) => {
         setGeneralThreads(snapshot.val().threads);
     });
 
-    catRef.once("value", (snapshot) => {
-        console.log(snapshot.val());
-        if (snapshot.val().uni == props.selectedUni && snapshot.val().name == "Questions") {
-            console.log(snapshot.val().threads);
-        }
-    })
 
     catRef.child("questions").once("value", (snapshot) => {
         setQuestionThreads(snapshot.val().threads);

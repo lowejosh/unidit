@@ -119,12 +119,38 @@ const UniSelect = (props) => {
         }
 
         uniRef.on('value', snapshot => {
-            let uniArr = [Object.values(snapshot.val()), Object.keys(snapshot.val())];
+            if (snapshot.val()) {
+                let uniArr = [Object.values(snapshot.val()), Object.keys(snapshot.val())];
 
-            if(uniArr.length && loading) {
-                for (let i = 0; i < uniArr[0].length; i++) {
-                    if (searchString.length > 0) {
-                        if (uniArr[0][i].name.includes(searchString)) {
+                if(uniArr.length && loading) {
+                    for (let i = 0; i < uniArr[0].length; i++) {
+                        if (searchString.length > 0) {
+                            if (uniArr[0][i].name.includes(searchString)) {
+                                if (selectedItem == 0) {
+                                    if (props.selectedUni == uniArr[1][i]) {
+                                        uniComponents.push(
+                                            <Thread key={i} variant="uni" sel={true} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                        )
+                                    } else {
+                                        uniComponents.push(
+                                            <Thread key={i} variant="uni" uid={userId} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                        )
+                                    }
+                                } else {
+                                    if (uniArr[0][i].state == sideList[selectedItem]) {
+                                        if (props.selectedUni == uniArr[1][i]) {
+                                            uniComponents.push(
+                                                <Thread key={i} variant="uni" sel={true} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                            )
+                                        } else {
+                                            uniComponents.push(
+                                                <Thread key={i} variant="uni" uid={userId} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
                             if (selectedItem == 0) {
                                 if (props.selectedUni == uniArr[1][i]) {
                                     uniComponents.push(
@@ -146,41 +172,20 @@ const UniSelect = (props) => {
                                             <Thread key={i} variant="uni" uid={userId} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
                                         )
                                     }
-                                }
-                            }
-                        }
-                    } else {
-                        if (selectedItem == 0) {
-                            if (props.selectedUni == uniArr[1][i]) {
-                                uniComponents.push(
-                                    <Thread key={i} variant="uni" sel={true} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
-                                )
-                            } else {
-                                uniComponents.push(
-                                    <Thread key={i} variant="uni" uid={userId} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
-                                )
-                            }
-                        } else {
-                            if (uniArr[0][i].state == sideList[selectedItem]) {
-                                if (props.selectedUni == uniArr[1][i]) {
-                                    uniComponents.push(
-                                        <Thread key={i} variant="uni" sel={true} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
-                                    )
-                                } else {
-                                    uniComponents.push(
-                                        <Thread key={i} variant="uni" uid={userId} id={uniArr[1][i]} name={uniArr[0][i].name} topic={uniArr[0][i].state} units={0} posts={0} />
-                                    )
+
                                 }
 
                             }
 
                         }
-
+                        
                     }
-                    
+                    setLoading(false);
                 }
-                setLoading(false);
+            } else {
+                return "no"
             }
+            
         });
 
         return () => {

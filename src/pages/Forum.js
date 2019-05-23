@@ -43,7 +43,6 @@ const Forum = (props) => {
                 document.write("database error");
         }
     }
-    console.log(categoryId);
     
     catRef.child(categoryId).once("value", (snapshot) => {
         if (snapshot.val().threadExists == true) {

@@ -4,6 +4,7 @@ import Content from './pages/Content';
 import Forum from './pages/Forum';
 import AltContent from './pages/AltContent';
 import UniSelect from './pages/UniSelect';
+import Reviews from './pages/Reviews';
 import ThreadPage from './pages/ThreadPage';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import {Spinner} from 'react-bootstrap';
@@ -186,6 +187,26 @@ const Routes = (props) => {
     )}
     </div>
   );
+
+  const courseReviews = () => (
+    <div>
+      {
+        selectedUni ? (
+          <div>
+            <NavBarContainer sel={"forum"} auth={props.props} />
+            <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+              <Reviews name="Course Reviews" selectedUni={selectedUni} user={user} type="Course" route="/course-reviews"/>
+            </div>
+          </div>
+        ) : (
+          <Route>
+            <Redirect to="/select" />
+          </Route>
+
+        )
+      }
+    </div>
+  );
   
           // {/* <Spinner className="spinner" animation="border"/> */}
 
@@ -203,6 +224,7 @@ const Routes = (props) => {
             <Route exact path="/select" component={uniSelect}/>
             <Route exact path="/general" component={general}/>
             <Route exact path="/questions" component={questions}/>
+            <Route exact path="/course-reviews" component={courseReviews}/>
             <Route path="/thread:id" component={thread}/>
           </Router>
 
