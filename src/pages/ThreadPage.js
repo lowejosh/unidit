@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Spinner, Form, OverlayTrigger, Popover, Button} from 'react-bootstrap';
-import AltCreateThread from '../containers/AltCreateThread';
+import AltLeaveReply from '../containers/AltLeaveReply';
+import AltCommentListContainer from '../containers/AltCommentListContainer';
 import {threadRef, catRef} from './../Database';
 import time2Ago from './../utilities/time2Ago';
 
@@ -53,6 +54,7 @@ const ThreadPage = (props) => {
     // Get category name
 
     if (thread && categoryName) {
+        console.log(thread);
         return (
             <div className="row w-100 mx-auto" style={{height: "auto"}}>
                 <div className="col-sm-8 text-background background-primary" style={{lineHeight: "2.5rem", height: "2.5rem"}}><a href="/">Forum</a> > <a href={thread.categoryId}>{categoryName}</a> > <a href={"/thread" + threadId}>{getTitle(thread.title)}</a></div>
@@ -60,13 +62,16 @@ const ThreadPage = (props) => {
                     {
                         props.user
                         ? (
-                            <Button variant="custom-primary w-100 h-100 mb-2 rounded-0 " className="alt-custom-primary" onClick={() => {
-                                if (props.user) {
-                                    setModalShow(true);
-                                } 
-                            }}>
-                                Leave Reply
-                            </Button>
+                            <div>
+                                <Button variant="custom-primary w-100 h-100 mb-2 rounded-0 " className="alt-custom-primary" onClick={() => {
+                                    if (props.user) {
+                                        setModalShow(true);
+                                    } 
+                                }}>
+                                    Leave Reply
+                                </Button>
+                                <AltLeaveReply show={modalShow} onHide={modalClose} uid={props.user.uid} uname={props.user.displayName} threadid={threadId}/>
+                            </div>
                         ) : (
                             <OverlayTrigger trigger="focus" placement="bottom" overlay={popover}>
                                 <Button variant="custom-primary w-100 h-100 mb-2 rounded-0" className="alt-custom-primary">
@@ -75,7 +80,6 @@ const ThreadPage = (props) => {
                             </OverlayTrigger>
                         )
                     }
-                    {/* <AltLeaveReply show={modalShow} onHide={modalClose} uid={props.user.uid} uname={props.user.displayName} threadId={threadId}/> */}
                 </div>
                 <div className="w-100 background-light-background p-3 border-left border-right border-bottom">
                     <h4 className="primary-color">{thread.title}</h4>
@@ -85,9 +89,9 @@ const ThreadPage = (props) => {
                     </div>
                 </div>
                 {
-                    thread.hasComments
+                    thread.hasComment
                     ? (
-                        "Lol"
+                        <AltCommentListContainer threadid={threadId} hasComment={thread.hasComment} />
 
                     ) : (
                         <div className="mx-auto">

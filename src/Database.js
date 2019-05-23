@@ -55,16 +55,19 @@ const threadModel = (title, content, posterId, posterName, categoryId) => {
         timeStamp: Date.parse(new Date().toString()),
         lastReplyTimeStamp: Date.parse(new Date().toString()),
         views: 0,
+        comments: 0,
         hasComment: false,
     }
 };
 
-const commentModel = (id, title, content) => {
+const commentModel = (content, uid, uname, threadId) => {
     return {
-        title: title,
         content: content,
         timeStamp: Date.parse(new Date().toString()),
-        votes: 0
+        votes: 0,
+        posterId: uid,
+        posterName: uname,
+        threadId: threadId,
     }
 };
 
@@ -104,6 +107,25 @@ const createThread = (title, content, uid, uname, categoryId) => {
     return key;
 }
 
+const createComment = (content, uid, uname, threadId) => {
+    let comment = commentModel(content, uid, uname, threadId);
+    let newCommentRef = commentRef.push(comment);
+    let key = newCommentRef.key;
+
+    // Update the thread
+    threadRef.child(threadId).once('value', (snapshot) => {
+        console.log(snapshot.val());
+        if (!snapshot.val().hasComment) {
+            threadRef.child(threadId).update({'hasComment': true});
+        }
+        threadRef.child(threadId).update({'comments': snapshot.val().comments + 1})
+    })
+    let threadCommentRef = db.ref('/threads/' + threadId + '/commentList');
+    threadCommentRef.push(key);
+
+    return key;
+}
+
 const getUniversities = () => {
     let unis = [];
     uniRef.once("value", function(snapshot) {
@@ -115,4 +137,4 @@ const getUniversities = () => {
 }
 
 
-export {uniRef, catRef, threadRef, userRef, getUniversities, createUni, createThread}
+export {uniRef, catRef, commentRef, threadRef, userRef, getUniversities, createUni, createThread, createComment}

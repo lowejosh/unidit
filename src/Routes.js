@@ -146,7 +146,7 @@ const Routes = (props) => {
           <NavBarContainer sel={"forum"} auth={props.props} />
           <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
             {/* <Content selectedUni={selectedUni} user={user}/> */}
-              <ThreadPage id={match.params.id} />
+              <ThreadPage id={match.params.id} user={user} />
           </div>
         </div>
       ) : (

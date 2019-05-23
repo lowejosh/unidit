@@ -46,11 +46,11 @@ const AltThreadListContainer = (props) => {
 
 
     if (props.hasThreads) {
-        threadRef.on("value", (snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-
-            });
-        })
+        return (
+            <div className="mb-5">
+                {threads}
+            </div>
+        );
     } else if (props.hasThreads == false) {
         return (
             <div>
@@ -61,11 +61,6 @@ const AltThreadListContainer = (props) => {
         return <Spinner className="spinner" animation="border"/>;
     }
 
-    return (
-        <div className="mb-5">
-            {threads}
-        </div>
-    );
 }
 
 export default AltThreadListContainer
