@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Spinner, Form, OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import AltCreateThread from '../containers/AltCreateThread';
 import {threadRef, catRef} from './../Database';
+import time2Ago from './../utilities/time2Ago';
 
 const ThreadPage = (props) => {
 
@@ -76,6 +77,24 @@ const ThreadPage = (props) => {
                     }
                     {/* <AltLeaveReply show={modalShow} onHide={modalClose} uid={props.user.uid} uname={props.user.displayName} threadId={threadId}/> */}
                 </div>
+                <div className="w-100 background-light-background p-3 border-left border-right border-bottom">
+                    <h4 className="primary-color">{thread.title}</h4>
+                    <div className="text-black">{thread.content}</div>
+                    <div className="text-darkest-background">
+                        <br /><i>by {thread.posterName} {time2Ago(thread.timeStamp)}</i>
+                    </div>
+                </div>
+                {
+                    thread.hasComments
+                    ? (
+                        "Lol"
+
+                    ) : (
+                        <div className="mx-auto">
+                            <div className="mt-5 text-center">Looks like there are no replies yet. Why not leave one?</div>
+                        </div>
+                    )
+                }
             </div>
         );
     } else if (thread == false) {
