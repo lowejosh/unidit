@@ -19,14 +19,15 @@ const AltThreadListContainer = (props) => {
 
         if (threadList.length > 0 && loading == true) {
 
-            for (let i = 0; i < threadList.length; i++) {
+            for (let i = threadList.length - 1; i > -1; i--) {
+                console.log(i);
                 threadRef.child(threadList[i]).once("value", (snapshot) => {
                     let v = snapshot.val();
                     if(v.categoryId == props.catId) {
                         threads.push(<AltThread key={i} title={v.title} uname={v.posterName} uid={v.posterId} content={v.content} date={v.timeStamp} lastDate={v.lastReplyTimeStamp} route={"/thread" + snapshot.key}/>);
                     }
                 })
-                if (i == threadList.length - 1) {
+                if (i == 0) {
                     setLoading(false);
                 }
             }

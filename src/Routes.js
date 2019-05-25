@@ -6,7 +6,9 @@ import AltContent from './pages/AltContent';
 import UniSelect from './pages/UniSelect';
 import Reviews from './pages/Reviews';
 import ThreadPage from './pages/ThreadPage';
+import ReviewPage from './pages/ReviewPage';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import Stats from './pages/Stats';
 import {Spinner} from 'react-bootstrap';
 import * as Database from './Database';
 
@@ -132,13 +134,6 @@ const Routes = (props) => {
     </div>
   );
 
-
-        // {/* <div>
-        //   <NavBarContainer sel={"forum"} auth={props.props} />
-        //   <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
-        //     <Forum selectedUni={selectedUni} user={user} name={"Questions"} type="global" route="/questions"/>
-        //   </div>
-        // </div> */}
   const thread = ({ match }) => (
     <div>
     {
@@ -160,10 +155,27 @@ const Routes = (props) => {
     </div>
   );
 
+  const ratings = ({ match }) => (
+    <div>
+    {
+      selectedUni ? (
+        <div>
+          <NavBarContainer sel={"forum"} auth={props.props} />
+          <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+            {/* <Content selectedUni={selectedUni} user={user}/> */}
+              <ReviewPage id={match.params.id} user={user} />
+              {/* {match.params.id} */}
+          </div>
+        </div>
+      ) : (
+        <Route>
+          <Redirect to="/select" />
+        </Route>
 
-
-
-
+      )
+    }
+    </div>
+  );
 
   const uniSelect = () => (
     <div>
@@ -188,6 +200,15 @@ const Routes = (props) => {
     </div>
   );
 
+ const stats = () => (
+    <div>
+      <NavBarContainer sel={"select"} auth={props.props} />
+      <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+          <Stats user={user} />
+      </div>
+    </div>
+  );
+
   const courseReviews = () => (
     <div>
       {
@@ -196,6 +217,46 @@ const Routes = (props) => {
             <NavBarContainer sel={"forum"} auth={props.props} />
             <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
               <Reviews name="Course Reviews" selectedUni={selectedUni} user={user} type="Course" route="/course-reviews"/>
+            </div>
+          </div>
+        ) : (
+          <Route>
+            <Redirect to="/select" />
+          </Route>
+
+        )
+      }
+    </div>
+  );
+
+  const majorReviews = () => (
+    <div>
+      {
+        selectedUni ? (
+          <div>
+            <NavBarContainer sel={"forum"} auth={props.props} />
+            <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+              <Reviews name="Major Reviews" selectedUni={selectedUni} user={user} type="Major" route="/major-reviews"/>
+            </div>
+          </div>
+        ) : (
+          <Route>
+            <Redirect to="/select" />
+          </Route>
+
+        )
+      }
+    </div>
+  );
+
+  const unitReviews = () => (
+    <div>
+      {
+        selectedUni ? (
+          <div>
+            <NavBarContainer sel={"forum"} auth={props.props} />
+            <div style={{marginLeft: "15%", marginRight: "15%", marginTop: "2rem"}}>
+              <Reviews name="Unit Reviews" selectedUni={selectedUni} user={user} type="Unit" route="/unit-reviews"/>
             </div>
           </div>
         ) : (
@@ -225,7 +286,11 @@ const Routes = (props) => {
             <Route exact path="/general" component={general}/>
             <Route exact path="/questions" component={questions}/>
             <Route exact path="/course-reviews" component={courseReviews}/>
+            <Route exact path="/major-reviews" component={majorReviews}/>
+            <Route exact path="/unit-reviews" component={unitReviews}/>
+            <Route exact path="/stats" component={stats}/>
             <Route path="/thread:id" component={thread}/>
+            <Route path="/ratings:id" component={ratings}/>
           </Router>
 
         )

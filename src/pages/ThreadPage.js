@@ -54,7 +54,6 @@ const ThreadPage = (props) => {
     // Get category name
 
     if (thread && categoryName) {
-        console.log(thread);
         return (
             <div className="row w-100 mx-auto" style={{height: "auto"}}>
                 <div className="col-sm-8 text-background background-primary" style={{lineHeight: "2.5rem", height: "2.5rem"}}><a href="/">Forum</a> > <a href={thread.categoryId}>{categoryName}</a> > <a href={"/thread" + threadId}>{getTitle(thread.title)}</a></div>

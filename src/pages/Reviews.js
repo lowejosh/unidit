@@ -12,11 +12,11 @@ const Reviews = (props) => {
     const [categoryName, setCategoryName] = useState("");
 
     const [hasRatingObj, setHasRatingObj] = useState();
-    const [ratingObjList, setRatingObjList] = useState();
+    const [ratingObjList, setRatingObjList] = useState([]);
     const [ratingCount, setRatingCount] = useState();
     const [ratingObjectComponents, setRatingObjectComponents] = useState([]);
     const [loadingRatings, setLoadingRatings] = useState(true);
-    const [, update] = useState();
+    const [update, setUpdate] = useState(0);
 
     const [modalShow, setModalShow] = useState(false);
     const modalClose = () => {setModalShow(false)};
@@ -26,7 +26,7 @@ const Reviews = (props) => {
         </Popover>
     );
 
-    const [selectedItem, setSelectedItem] = useState("All");
+    const [selectedItem, setSelectedItem] = useState(0);
     const [changingSel, setChangingSel] = useState(false);
 
     let sideList = ["All", "Science, Engineering & Information Technology", "Business, Economics & Law", "Health & Behavioural Science", "Humanities & Social Science", "Medicine"];
@@ -45,7 +45,7 @@ const Reviews = (props) => {
             }
 
             return (
-                <div onClick={() => {setSelectedItem(sideList[i]); setRatingObjectComponents([]); setLoadingRatings(true)}} className={classNames}>
+                <div onClick={() => {setSelectedItem(i); setChangingSel(true)}} className={classNames}>
                     {name}
                 </div>
             );
@@ -70,6 +70,15 @@ const Reviews = (props) => {
 
     // Check if category has any reviews - if not put no review
     useEffect(() => {
+
+        if (changingSel) {
+            setRatingObjectComponents([]);
+            setRatingObjList([]);
+            setLoadingName(true);
+            setLoadingRatings(true);
+            setChangingSel(false);
+        }
+
         if (loading) {
             catRef.on("value", (snapshot) => {
                 snapshot.forEach((childSnapshot) => {
@@ -87,7 +96,9 @@ const Reviews = (props) => {
         if (loadingName && !loading) {
             catRef.child(categoryId).once("value", (snapshot) => {
                 setCategoryName(snapshot.val().name);
-                setRatingObjList(Object.values(snapshot.val().ratingObjList));
+                if (snapshot.val().hasRatingObject) {
+                    setRatingObjList(Object.values(snapshot.val().ratingObjList));
+                }
                 setLoadingName(false);
             })
         }
@@ -105,7 +116,8 @@ const Reviews = (props) => {
                     let faculty = v.faculty;
                     let targetId = v.targetId;
 
-                    if (selectedItem == "All") {
+                    // if (type == "Major")
+                    if (sideList[selectedItem] == "All") {
                         ratingObjectComponents.push(
                             <div key={i} className="w-100 p-3 background-light-background border mt-4">
                                 <h5 className="primary-color"><a href={"/ratings" + snapshot.key}>{targetId} - {name}</a><br /><span className="text-darkest-background " style={{fontSize: "16px"}}>{faculty}</span></h5>
@@ -120,8 +132,9 @@ const Reviews = (props) => {
                                 />
                             </div>                        
                         );
+                        setUpdate(update + i + 1);
                     } else {
-                        if (faculty == selectedItem) {
+                        if (faculty == sideList[selectedItem]) {
                             ratingObjectComponents.push(
                                 <div key={i} className="w-100 p-3 background-light-background border mt-4">
                                     <h5 className="primary-color"><a href={"/ratings" + snapshot.key}>{targetId} - {name}</a><br /><span className="text-darkest-background " style={{fontSize: "16px"}}>{faculty}</span></h5>
@@ -136,17 +149,18 @@ const Reviews = (props) => {
                                     />
                                 </div>                        
                             );
+                            setUpdate(update + i + 1);
                         }
 
                     }
-                    update(i);
+                    setUpdate(update + i + 1);
                 })
                 if (i == ratingObjList.length - 1) {
                     setLoadingRatings(false);
                 }
             }
         }
-    }, [loading, loadingName, loadingRatings, update, ratingObjectComponents]);
+    }, [loading, loadingName, loadingRatings, changingSel, update, ratingObjectComponents, ]);
     
     return (
         <div>
@@ -168,7 +182,7 @@ const Reviews = (props) => {
                                         }}>
                                             Write Review
                                         </Button>
-                                        <AltCreateReview type={props.type} show={modalShow} onHide={modalClose} uid={props.user.uid} uname={props.user.displayName} categoryid={categoryId}/>
+                                        <AltCreateReview type={props.type} show={modalShow} onHide={modalClose} uid={props.user.uid} uname={props.user.displayName} categoryid={categoryId} selecteduni={props.selectedUni}/>
                                     </div>
                                 ) : (
                                     <OverlayTrigger trigger="focus" placement="bottom" overlay={popover}>
@@ -187,13 +201,13 @@ const Reviews = (props) => {
                         ? (
                             <div>
                                 {
-                                    ratingCount == 1
+                                    ratingObjectComponents.length == 1
                                     ? (
-                                        <div className="mb-4">
+                                        <div className="mb-5">
                                             {ratingObjectComponents[0]}
                                         </div>
                                     ) : (
-                                        <div className="mb-4">
+                                        <div className="mb-5">
                                             {ratingObjectComponents}
                                         </div>
                                     )

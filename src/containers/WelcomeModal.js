@@ -24,11 +24,12 @@ const WelcomeModal = (props) => {
       </Modal.Header>
       <Form>
           <Modal.Body>
-            <Modal.Body>It looks like its your first time visiting, please begin by selecting your university.</Modal.Body>
+            <Modal.Body><center>It looks like its your first time visiting, please begin by selecting your university.<br />Or, if you'd like, you can look at our university statistics.</center></Modal.Body>
 
           </Modal.Body>
           <Modal.Footer>
-          <Button className="custom-primary mx-auto w-25" onClick={props.onHide}>Got it</Button>
+          <Button className="custom-primary mx-auto w-25" onClick={props.onHide}>Select University</Button>
+          <Button className="custom-primary mx-auto w-25" onClick={() => {window.location.href="/stats"}}>View Statistics</Button>
           </Modal.Footer>
       </Form>
     </Modal>

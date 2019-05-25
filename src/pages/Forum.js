@@ -65,13 +65,16 @@ const Forum = (props) => {
                                 {
                                     props.user
                                     ? (
-                                        <Button variant="custom-primary w-100 h-100 mb-2 rounded-0 " className="alt-custom-primary" onClick={() => {
-                                            if (props.user) {
-                                                setModalShow(true);
-                                            } 
-                                        }}>
-                                            Create Thread
-                                        </Button>
+                                        <div>
+                                            <Button variant="custom-primary w-100 h-100 mb-2 rounded-0 " className="alt-custom-primary" onClick={() => {
+                                                if (props.user) {
+                                                    setModalShow(true);
+                                                } 
+                                            }}>
+                                                Create Thread
+                                            </Button>
+                                            <AltCreateThread show={modalShow} onHide={modalClose} uid={props.user.uid} uname={props.user.displayName} categoryid={categoryId}/>
+                                        </div>
                                     ) : (
                                         <OverlayTrigger trigger="focus" placement="bottom" overlay={popover}>
                                             <Button variant="custom-primary w-100 h-100 mb-2 rounded-0" className="alt-custom-primary">
@@ -85,7 +88,6 @@ const Forum = (props) => {
                         <Form.Group>
                             <Form.Control style={{margin: "0"}} className="rounded-0 border-bottom border-left border-right h-100 w-100 custom-search" size="md" type="text" placeholder="Search for a thread..." />
                         </Form.Group>
-                        <AltCreateThread show={modalShow} onHide={modalClose} uid={props.user.uid} uname={props.user.displayName} categoryid={categoryId}/>
                         <AltThreadListContainer catId={categoryId} selectedUniversity={props.selectedUniversity} hasThreads={hasThreads} />
                     </div>
                 ) : (

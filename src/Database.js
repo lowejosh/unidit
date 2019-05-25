@@ -77,7 +77,7 @@ const commentModel = (content, uid, uname, threadId) => {
     }
 };
 
-const ratingObjectModel = (objectName, id, categoryId, faculty) => {
+const ratingObjectModel = (objectName, id, categoryId, faculty, uni, type) => {
     return {
         targetId: id,
         categoryId: categoryId,
@@ -85,7 +85,9 @@ const ratingObjectModel = (objectName, id, categoryId, faculty) => {
         ratingSum: 0,
         ratingAvg: 0,
         ratings: 0,
+        uni: uni,
         faculty: faculty,
+        type: type,
         avgRating: null,
         //ratingList
     }
@@ -103,13 +105,14 @@ const ratingModel = (content, posterId, posterName, categoryId, targetId, rating
         timeStamp: Date.parse(new Date().toString()),
     }
 };
-const createRatingObject = (objectName, targetId, categoryId, faculty) => {
-    let ratingObj = ratingObjectModel(objectName, targetId, categoryId, faculty);
+const createRatingObject = (objectName, targetId, categoryId, faculty, uni, type) => {
+    let ratingObj = ratingObjectModel(objectName, targetId, categoryId, faculty, uni, type);
     let newRatingObjRef = ratingObjRef.push(ratingObj);
     return newRatingObjRef.key;
 }
 
-const createRating = (content, posterId, posterName, categoryId, targetId, targetName, rating, faculty) => {
+const createRating = (content, posterId, posterName, categoryId, targetId, targetName, rating, faculty, uni, type) => {
+    console.log(uni + " : " + type + " : " + faculty);
     // check every rating object to see if there is matching categoryId and targetId
     let objectKey = null;
     ratingObjRef.once("value", (snapshot) => {
@@ -122,7 +125,7 @@ const createRating = (content, posterId, posterName, categoryId, targetId, targe
             } 
         })
         if (!objectKey) {
-            objectKey = createRatingObject(targetName, targetId, categoryId, faculty);
+            objectKey = createRatingObject(targetName, targetId, categoryId, faculty, uni, type);
             ratingObjRef.child(objectKey).once("value", (snapshot) => {
                 ratingObjRef.child(objectKey).update({"ratings": snapshot.val().ratings + 1});
                 ratingObjRef.child(objectKey).update({"ratingSum": snapshot.val().ratingSum + rating});

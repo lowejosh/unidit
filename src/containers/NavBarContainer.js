@@ -19,7 +19,7 @@ const NavBarContainer = (props) => {
     if (props.blank) {
         return (
             <Navbar style={{paddingLeft: "15%", paddingRight: "15%"}} className="nvb navbar-light" expand="lg">
-            <Navbar.Brand className="nvb-brand" href="#home">MyUni</Navbar.Brand>
+            <Navbar.Brand className="nvb-brand" href="/">MyUni</Navbar.Brand>
             <Navbar.Toggle className="nvb-toggle" aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
@@ -41,7 +41,7 @@ const NavBarContainer = (props) => {
 
         return (
             <Navbar style={{paddingLeft: "15%", paddingRight: "15%"}} className="nvb navbar-light" expand="lg">
-            <Navbar.Brand className="nvb-brand" href="#home">MyUni</Navbar.Brand>
+            <Navbar.Brand className="nvb-brand" href="/">MyUni</Navbar.Brand>
             <Navbar.Toggle className="nvb-toggle" aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">

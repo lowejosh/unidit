@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import time2Ago from '../utilities/time2Ago';
 
 const AltComment = (props) => {
-    console.log("fuckign ufkc");
     return (
         <div className="my-3 p-3 w-100 border background-light-background" >
             <div className="h-100 background-light-background">

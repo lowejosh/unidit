@@ -18,6 +18,12 @@ const AltCreateReview = (props) => {
     setRating(newRating);
   }
 
+  // Get code
+  let type = props.type;
+  if (type == "Major") {
+    type = "Course";
+  }
+
   return (
     <Modal
       {...props}
@@ -33,8 +39,7 @@ const AltCreateReview = (props) => {
       <Form onSubmit={() => {
       
         if (id && name && selectValue !== -1 && rating) {
-          console.log(id + " : " + name + " : " + content + " : " + selectValue + " : " + rating);
-          createRating(content, props.uid, props.uname, props.categoryid, id, name, rating, selectValue)
+          createRating(content, props.uid, props.uname, props.categoryid, id, name, rating, selectValue, props.selecteduni, props.type)
         } else {
           alert ("Please fill in all the forms and try again");
         }
@@ -43,12 +48,20 @@ const AltCreateReview = (props) => {
                   {/* <Form.Label>Title</Form.Label> */}
                   <Form.Group>
                       <Form.Control onChange={(e) => {
-                        setId(e.target.value);
-                      }} className="mt-2" size="md" type="text" placeholder={props.type + " ID"} />
+                        if (props.type == "Major") {
+                          setName(e.target.value);
+                        } else {
+                          setId(e.target.value);
+                        }
+                      }} className="mt-2" size="md" type="text" placeholder={type + " Code"} />
                   </Form.Group>
                   <Form.Group>
                       <Form.Control onChange={(e) => {
-                        setName(e.target.value);
+                        if (props.type == "Major") {
+                          setId(e.target.value);
+                        } else {
+                          setName(e.target.value);
+                        }
                       }} className="mt-2" size="md" type="text" placeholder={props.type + " Name"} />
                   </Form.Group>
                   <Form.Group>
