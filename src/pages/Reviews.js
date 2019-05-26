@@ -121,7 +121,7 @@ const Reviews = (props) => {
                         ratingObjectComponents.push(
                             <div key={i} className="w-100 p-3 background-light-background border mt-4">
                                 <h5 className="primary-color"><a href={"/ratings" + snapshot.key}>{targetId} - {name}</a><br /><span className="text-darkest-background " style={{fontSize: "16px"}}>{faculty}</span></h5>
-                                <div className="py-2 mb-1">Total reviews: {ratings}<br />Average rating: {ratingAvg}</div>
+                                <div className="py-2 mb-1">Total reviews: {ratings}<br />Average rating: {Math.round(ratingAvg * 100)/100}</div>
                                 <StarRatings
                                     rating={ratingAvg}
                                     starRatedColor="#1E2248"

@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {ratingObjRef, uniRef} from './../Database';
+import {ratingObjRef, uniRef, userRef} from './../Database';
 import { Spinner } from 'react-bootstrap';
 import { updateArrayBindingPattern } from 'typescript';
+import { SSL_OP_NO_TLSv1_1 } from 'constants';
 
 const Stats = (props) => {
 
@@ -311,7 +312,7 @@ const Stats = (props) => {
         for (let i = 0; i < uniNames.length; i++) {
             if (obj.id == uniNames[i].id) {
                 return (
-                    <div className="background-background w-100 py-3 mt-3 border" style={{height: "auto"}}>
+                    <div className="background-background stat-hover w-100 py-3 mt-3 border" style={{height: "auto"}}>
                         <div className="h3 vertical-align mt-2 px-3 float-left h-100">
                             {number}
                         </div>
@@ -358,29 +359,233 @@ const Stats = (props) => {
                     <div className="row">
                         <div className="col-md mb-4">
                             <h5 className="mt-1">Top Universities (All ratings)</h5>
-                                {top3AllNames.first}
-                                {top3AllNames.second}
-                                {top3AllNames.third}
+                            <div>
+                                {
+                                    top3All.first.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3All.first.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/";
+                                        }}>{top3AllNames.first}</a>
+                                    ) : (
+                                        <div>
+                                            {top3AllNames.first}
+                                       </div>
+                                    )
+                                }
+                            </div>
+                            <div>
+                                {
+                                    top3All.second.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3All.second.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/";
+                                        }}>{top3AllNames.second}</a>
+                                    ) : (
+                                        <div>
+                                            {top3AllNames.second}
+                                       </div>
+                                    )
+                                }
+                            </div>
+                            <div>
+                                {
+                                    top3All.third.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3All.third.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/";
+                                        }}>{top3AllNames.third}</a>
+                                    ) : (
+                                        <div>
+                                            {top3AllNames.third}
+                                       </div>
+                                    )
+                                }
+                            </div>
                         </div> 
                         <div className="col-md mb-4">
                             <h5 className="mt-1">Top Universities (Course Ratings)</h5>
-                                {top3CoursesNames.first}
-                                {top3CoursesNames.second}
-                                {top3CoursesNames.third}
+                            <div>
+                                {
+                                    top3Courses.first.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3Courses.first.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/course-reviews";
+                                        }}>{top3CoursesNames.first}</a>
+                                    ) : (
+                                        <div>
+                                            {top3CoursesNames.first}
+                                       </div>
+                                    )
+                                }
+                            </div>
+                            <div>
+                                {
+                                    top3Courses.second.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3Courses.second.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/course-reviews";
+                                        }}>{top3CoursesNames.second}</a>
+                                    ) : (
+                                        <div>
+                                            {top3CoursesNames.second}
+                                       </div>
+                                    )
+                                }
+                            </div>
+                            <div>
+                                {
+                                    top3Courses.third.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3Courses.third.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/course-reviews";
+                                        }}>{top3CoursesNames.third}</a>
+                                    ) : (
+                                        <div>
+                                            {top3CoursesNames.third}
+                                       </div>
+                                    )
+                                }
+                            </div>
                         </div> 
                     </div>
                     <div className="row">
                         <div className="col-md mb-4">
                             <h5 className="mt-3">Top Universities (Major Ratings)</h5>
-                                {top3MajorsNames.first}
-                                {top3MajorsNames.second}
-                                {top3MajorsNames.third}
+                            <div>
+                                {
+                                    top3Majors.first.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3Majors.first.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/major-reviews";
+                                        }}>{top3MajorsNames.first}</a>
+                                    ) : (
+                                        <div>
+                                            {top3MajorsNames.first}
+                                       </div>
+                                    )
+                                }
+                            </div>
+                            <div>
+                                {
+                                    top3Majors.second.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3Majors.second.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/major-reviews";
+                                        }}>{top3MajorsNames.second}</a>
+                                    ) : (
+                                        <div>
+                                            {top3MajorsNames.second}
+                                       </div>
+                                    )
+                                }
+                            </div>
+                            <div>
+                                {
+                                    top3Majors.third.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3Majors.third.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/major-reviews";
+                                        }}>{top3MajorsNames.third}</a>
+                                    ) : (
+                                        <div>
+                                            {top3MajorsNames.third}
+                                       </div>
+                                    )
+                                }
+                            </div>
                         </div> 
                         <div className="col-md mb-4">
                             <h5 className="mt-3">Top Universities (Unit Ratings)</h5>
-                                {top3UnitsNames.first}
-                                {top3UnitsNames.second}
-                                {top3UnitsNames.third}
+                            <div>
+                                {
+                                    top3Units.first.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3Units.first.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/unit-reviews";
+                                        }}>{top3UnitsNames.first}</a>
+                                    ) : (
+                                        <div>
+                                            {top3UnitsNames.first}
+                                       </div>
+                                    )
+                                }
+                            </div>
+                            <div>
+                                {
+                                    top3Units.second.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3Units.second.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/unit-reviews";
+                                        }}>{top3UnitsNames.second}</a>
+                                    ) : (
+                                        <div>
+                                            {top3UnitsNames.second}
+                                       </div>
+                                    )
+                                }
+                            </div>
+                            <div>
+                                {
+                                    top3Units.third.id !== -1
+                                    ? (
+                                        <a onClick={() => {
+                                            localStorage.setItem("selectedUniversity", top3Units.third.id);
+                                            if (props.user) {
+                                                userRef.child(props.user.uid).update({'selectedUni': top3All.first.id});
+                                            }
+                                            window.location.href = "/unit-reviews";
+                                        }}>{top3UnitsNames.third}</a>
+                                    ) : (
+                                        <div>
+                                            {top3UnitsNames.third}
+                                       </div>
+                                    )
+                                }
+                            </div>
                         </div> 
                     </div>
                         {/* <div className="row">

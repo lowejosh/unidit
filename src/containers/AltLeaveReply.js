@@ -4,6 +4,7 @@ import {createComment} from './../Database';
 
 const AltCreateThread = (props) => {
   const [content, setContent] = useState(); 
+  const [TOS, setTOS] = useState(null);
 
   return (
     <Modal
@@ -20,6 +21,7 @@ const AltCreateThread = (props) => {
       <Form onSubmit={() => {
         console.log(content);
         if (content) {
+          alert ("Thanks for posting! As it is your first time commenting, you are the only one who can see your post until it is approved by moderators.");
           createComment(content, props.uid, props.uname, props.threadid);
         } else {
           alert ("Please fill in all the forms and try again");
@@ -30,6 +32,11 @@ const AltCreateThread = (props) => {
                   <Form.Control as="textarea" placeholder="Reply" rows="4" onChange={(e) => {
                     setContent(e.target.value);
                   }} />
+                  </Form.Group>
+                  <Form.Group controlId="formBasicChecbox">
+                    <Form.Check className="mx-2" onChange={(e) => {
+                      setTOS(e.target.value);  
+                    }} type="checkbox" label="I have read and agree to abide by the forum rules" />
                   </Form.Group>
           </Modal.Body>
           <Modal.Footer>

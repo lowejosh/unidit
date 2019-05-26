@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import {Modal, Button, Form} from 'react-bootstrap';
 import {createThread} from './../Database';
+import { setTokenSourceMapRange } from 'typescript';
 
 const AltCreateThread = (props) => {
   const [selectValue, setSelectValue] = useState(-1); 
   const [title, setTitle] = useState(); 
   const [content, setContent] = useState(); 
+  const [TOS, setTOS] = useState(null);
 
   const handleChange = (e) => {
     setSelectValue(e.target.value);
@@ -25,7 +27,8 @@ const AltCreateThread = (props) => {
       </Modal.Header>
       <Form onSubmit={() => {
       
-        if (title && content) {
+        if (title && content && TOS !== null) {
+          alert ("Thanks for posting! As it is your first time creating a thread, you are the only one who can see your post until it is approved by moderators.");
           createThread(title, content, props.uid, props.uname, props.categoryid);
         } else {
           alert ("Please fill in all the forms and try again");
@@ -43,6 +46,11 @@ const AltCreateThread = (props) => {
                   <Form.Control as="textarea" placeholder="Content" rows="4" onChange={(e) => {
                     setContent(e.target.value);
                   }} />
+                  </Form.Group>
+                  <Form.Group controlId="formBasicChecbox">
+                    <Form.Check className="mx-2" onChange={(e) => {
+                      setTOS(e.target.value);  
+                    }} type="checkbox" label="I have read and will abide by the forum rules" />
                   </Form.Group>
           </Modal.Body>
           <Modal.Footer>

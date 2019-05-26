@@ -215,6 +215,12 @@ html, body {
   box-shadow: none;
 }
 
+.stat-hover:hover {
+  border-color: $primary !important;
+  cursor: pointer;
+  // background-color: red !important;
+
+}
 
 
 a {
